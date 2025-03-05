@@ -16,51 +16,67 @@ ServiceHub bridges the gap between professionals and clients by offering profile
 
 
 ## Tech Stack
-> Frontend: React + Tailwind CSS (for responsive UI)
-> Backend: Node.js + Express.js (handling authentication, payments, and inquiries)
-> Database: MongoDB (storing users, services, and transactions)
-> Payment Gateway: Razorpay (for professionals to add credits)
-> Email API: Nodemailer (for sending inquiries to professionals)
+-> Frontend: React + Tailwind CSS (for responsive UI)
+
+-> Backend: Node.js + Express.js (handling authentication, payments, and inquiries)
+
+-> Database: MongoDB (storing users, services, and transactions)
+
+-> Payment Gateway: Razorpay (for professionals to add credits)
+
+-> Email API: Nodemailer (for sending inquiries to professionals)
 
 ## ServiceHub Project Timeline
 Week 1: Planning & Backend Setup
  Day 1: Initialize repository, set up README, and create a GitHub project.
+ 
  Day 2-3: Low-Fidelity Wireframes – Sketch UI screens (Landing page, Dashboard, Inquiry form, Profile page).
+ 
  Day 4: Backend – Set-up database schema (MongoDB models for users, inquiries, and transactions).
 
 ---
 
 Week 2: Backend Development
  Day 5-7: Develop and test CRUD APIs (User authentication, service listings, inquiries).
+ 
  Day 8-9: Implement email notifications (Nodemailer) and wallet system logic (Razorpay integration).
+ 
  Day 10: Deploy backend and update API documentation (Bruno collection).
 
  ---
 
 Week 3: Frontend & High-Fidelity Design
  Day 11-12: High-Fidelity UI Design – Convert lo-fi wireframes into detailed Figma designs.
+ 
  Day 13-15: Set up React app, install dependencies, create reusable UI components (Navbar, Cards, Forms).
 
 ---
 
 Week 4: Authentication & Core Features
  Day 16-17: Implement JWT authentication (Signup/Login).
+ 
  Day 18-19: Integrate Google OAuth for quick login.
+ 
  Day 20: Test authentication flow & fix security issues.
 
 ---
 
 Week 5: Booking System & Listings
  Day 21-22: Implement service listings (professional profiles, filters, categories).
+ 
  Day 23-24: Implement booking/inquiry system (form submission, professional responses).
+ 
  Day 25: Test and refine booking flow.
 
 ---
 
 Week 6: Final Touches & Deployment
  Day 26-27: UI improvements, animations, responsive design fixes.
+ 
  Day 28: Backend & frontend final testing (debugging, optimizing).
+ 
  Day 29: Deploy frontend (Vercel) & backend (Render).
+ 
  Day 30: Submit project with final documentation & demo video.
 
 
