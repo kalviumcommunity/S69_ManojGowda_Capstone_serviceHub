@@ -28,6 +28,7 @@ ServiceHub bridges the gap between professionals and clients by offering profile
 
 ## ServiceHub Project Timeline
 Week 1: Planning & Backend Setup
+
  Day 1: Initialize repository, set up README, and create a GitHub project.
  
  Day 2-3: Low-Fidelity Wireframes – Sketch UI screens (Landing page, Dashboard, Inquiry form, Profile page).
@@ -37,6 +38,7 @@ Week 1: Planning & Backend Setup
 ---
 
 Week 2: Backend Development
+
  Day 5-7: Develop and test CRUD APIs (User authentication, service listings, inquiries).
  
  Day 8-9: Implement email notifications (Nodemailer) and wallet system logic (Razorpay integration).
@@ -46,6 +48,7 @@ Week 2: Backend Development
  ---
 
 Week 3: Frontend & High-Fidelity Design
+
  Day 11-12: High-Fidelity UI Design – Convert lo-fi wireframes into detailed Figma designs.
  
  Day 13-15: Set up React app, install dependencies, create reusable UI components (Navbar, Cards, Forms).
@@ -53,6 +56,7 @@ Week 3: Frontend & High-Fidelity Design
 ---
 
 Week 4: Authentication & Core Features
+
  Day 16-17: Implement JWT authentication (Signup/Login).
  
  Day 18-19: Integrate Google OAuth for quick login.
@@ -62,6 +66,7 @@ Week 4: Authentication & Core Features
 ---
 
 Week 5: Booking System & Listings
+
  Day 21-22: Implement service listings (professional profiles, filters, categories).
  
  Day 23-24: Implement booking/inquiry system (form submission, professional responses).
@@ -71,6 +76,7 @@ Week 5: Booking System & Listings
 ---
 
 Week 6: Final Touches & Deployment
+
  Day 26-27: UI improvements, animations, responsive design fixes.
  
  Day 28: Backend & frontend final testing (debugging, optimizing).
