@@ -1,3 +1,5 @@
+
+const mongoose = require('mongoose')
 const inquirySchema = new mongoose.Schema({
     clientId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     professionalId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, 
@@ -6,3 +8,5 @@ const inquirySchema = new mongoose.Schema({
     status: { type: String, enum: ["Pending", "Accepted", "Rejected"], default: "Pending" },
     createdAt: { type: Date, default: Date.now },
   });
+
+module.exports = mongoose.model("Inquery", inquirySchema);
