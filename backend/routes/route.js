@@ -29,7 +29,7 @@ route.get("/professional/:profession/:id", async(req, res) => {
          const professional = await Professional.findOne({ _id : req.params.id, role : "professional"})
 
          if(!professional){
-            return res.status(404).json({message : `No professional found with this ${req.params.is}`})
+            return res.status(404).json({message : `No professional found with this ${req.params.id}`})
          }
          res.status(200).json(professional)
     }catch(err){
