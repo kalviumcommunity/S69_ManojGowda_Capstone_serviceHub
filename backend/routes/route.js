@@ -1,16 +1,20 @@
 const express = require('express')
 const route = express.Router();
 
-// Schemas import
+const {register,logIn} = require('../Controllers/authentication.js')
+const {user} = require("../Controllers/user.js");
+const { Professionals,Professional, professionalRegister } = require('../Controllers/professionals.js');
+const { showInquiry, postInquiry } = require('../Controllers/inquiry.js');
+const { reviews, postReview } = require('../Controllers/review.js');
 
-const User = require('../models/user')
-const Professional = require("../models/registerForm")
-const Inquery = require("../models/inquery");
-const Review = require('../models/review');
-const Transaction = require("../models/transaction")
+//AUTH ROUTES
+route.post("/auth/sigup",register);
+route.post("auth/login",logIn);
 
-//routes
+//USER ROUTES
+route.get("/user/:id",user);
 
+<<<<<<< Updated upstream
 route.get("/professional/:profession", async(req, res) => {
     try{
         const professionals = await Professional.find({ profession : req.params.profession})
@@ -110,3 +114,20 @@ route.get("/transactions/:id", async(req, res) => {
     }
 }) 
 
+=======
+//PROFESSIONALS ROUTES
+route.get("professional/:profession",Professionals)
+route.get("professional/profession/:id",Professional);
+route.post("/register",professionalRegister);
+
+//INQUIRY ROUTES
+route.get("/inquiry/:id",showInquiry);
+route.post("/inquiry",postInquiry);
+
+//REVIEW ROUTES
+route.get("/reviews/:userId",reviews);
+route.post("/review",postReview);
+
+//TRANSACTION 
+route.get("/transaction/:id",transaction)
+>>>>>>> Stashed changes
