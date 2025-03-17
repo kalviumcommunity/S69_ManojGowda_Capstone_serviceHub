@@ -9,4 +9,4 @@ const inquirySchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
   });
 
-module.exports = mongoose.model("Inquery", inquirySchema);
+module.exports = mongoose.model("Inquiry", inquirySchema);

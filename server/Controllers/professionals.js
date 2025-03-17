@@ -1,6 +1,6 @@
 const Professional = require("../models/registerForm")
-
-export const Professionals =  async (req, res) => {
+const User = require("../models/user");
+const Professionals =  async (req, res) => {
     try {
         const professionals = await Professional.find({ profession: req.params.profession });
 
@@ -14,7 +14,7 @@ export const Professionals =  async (req, res) => {
     }
 };
 
-export const Professional =  async (req, res) => {
+const professional =  async (req, res) => {
     try {
         const professional = await Professional.findOne({ _id: req.params.id, role: "professional" });
 
@@ -28,29 +28,49 @@ export const Professional =  async (req, res) => {
     }
 };
 
-export const professionalRegister=  async (req, res) => {
-    try {
-        const { fullName, email, profession, experience, location, bio, servicesOffered, availability } = req.body;
 
-        if (!fullName || !email || !profession || !experience || !location || !bio || !servicesOffered || !availability) {
+
+const professionalRegister = async (req, res) => {
+    try {
+        const { fullName, email, profession, experience, location, bio, servicesOffered, availability, phone } = req.body;
+
+        if (!fullName || !email || !profession || !experience || !location || !bio || !servicesOffered || !availability || !phone) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
+    
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found. Please register first." });
+        }
+
+    
+        const existingProfessional = await Professional.findOne({ userId: user._id });
+        if (existingProfessional) {
+            return res.status(400).json({ message: "User is already registered as a professional." });
+        }
+
+    
         const register = await Professional.create({
+            userId: user._id, 
             fullName,
             email,
+            phone,
             profession,
             experience,
             location,
             bio,
-            servicesOffered,
+            servicesOffered : Array.isArray(servicesOffered) ? servicesOffered : [servicesOffered], 
             availability
         });
 
         console.log(register);
-        res.status(201).json({ message: "Registration form received!" });
+        res.status(201).json({ message: "Professional registration successful!" });
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
+module.exports = {professionalRegister,professional,Professionals}

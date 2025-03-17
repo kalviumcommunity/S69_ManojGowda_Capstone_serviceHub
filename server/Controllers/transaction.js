@@ -1,6 +1,6 @@
 const Transaction = require("../models/transaction")
 
-export const transaction =  async (req, res) => {
+const transaction =  async (req, res) => {
     try {
         const data = await Transaction.find({ _id: req.params.id });
         if (data.length === 0) {
@@ -13,4 +13,5 @@ export const transaction =  async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+module.exports = transaction;
 

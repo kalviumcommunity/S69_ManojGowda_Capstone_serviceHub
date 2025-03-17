@@ -1,6 +1,6 @@
 const User = require("../models/user")
 const Review = require("../models/review")
-export const reviews =  async (req, res) => {
+const reviews =  async (req, res) => {
     try {
         const user = await User.findById(req.params.userId);
         if (!user) {
@@ -25,7 +25,7 @@ export const reviews =  async (req, res) => {
     }
 };
 
-export const postReview =  async (req, res) => {
+const postReview =  async (req, res) => {
     try {
         const { rating, review } = req.body;
         if (!rating || !review) {
@@ -47,3 +47,5 @@ export const postReview =  async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
+module.exports = {reviews,postReview};

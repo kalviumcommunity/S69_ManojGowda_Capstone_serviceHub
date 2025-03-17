@@ -1,6 +1,10 @@
 const User = require("../models/user")
 const bcrypt = require("bcryptjs");
-export const register =  async (req, res) => {
+const jwt = require('jsonwebtoken')
+const transporter = require('../config/nodemailer')
+require('dotenv').config()
+
+const register =  async (req, res) => {
     try {
         const { name, email, role, password } = req.body;
 
@@ -28,7 +32,49 @@ export const register =  async (req, res) => {
             secure : process.env.NODE_ENV === 'production',
             sameSite : process.env.NODE_ENV === 'production' ? 'none' : 'strict',
             maxAge : 24 * 60 * 60 * 1000
-        })
+        });
+
+        const mail = {
+            from: process.env.SMTP_USER,
+            to: email,
+            subject: "Welcome to ServiceHub",
+            html: `
+                <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #e5e7eb; background-color: #111827; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto;">
+                    <h2 style="color:rgb(255, 255, 253); text-align: center;">Welcome to serviceHub!</h2>
+        
+                    <p class="text-gray-300">Dear <strong>${name}</strong>,</p>
+        
+                    <p class="text-gray-300">
+                        We are excited to have you on board! <strong>serviceHub</strong> is designed to streamline your inquiries, making it easy to send, track, and manage requests effortlessly.
+                    </p>
+        
+                    <p class="text-gray-300"><strong>What you can do with serviceHub:</strong></p>
+                    <ul style="list-style-type: none; padding: 0;">
+                        <li style="margin: 5px 0;">✅ Submit inquiries seamlessly</li>
+                        <li style="margin: 5px 0;">✅ Track the status of your requests in real time</li>
+                    </ul>
+        
+                    <p class="text-gray-300">
+                        Get started by logging into your account and exploring the dashboard. If you have any questions, our support team is here to help!
+                    </p>
+        
+                    <div style="text-align: center; margin-top: 20px;">
+                        <a href="YOUR_LOGIN_LINK_HERE" 
+                           style="display: inline-block; background-color: #3b82f6; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">
+                            Login to ServiceHub
+                        </a>
+                    </div>
+        
+                    <p class="text-gray-300" style="margin-top: 20px;">We are glad to have you with us!</p>
+        
+                    <p class="text-gray-400">Best regards,</p>
+                    <p class="text-gray-400"><strong>The ServiceHub Team</strong></p>
+                </div>
+            `
+        };
+
+        await transporter.sendMail(mail);
+        
 
         console.log(user);
         res.status(201).json({ message: "User signed up successfully" });
@@ -38,7 +84,7 @@ export const register =  async (req, res) => {
     }
 };
 
-export const logIn =  async (req, res) => {
+const logIn =  async (req, res) => {
     try {
         const { email, password } = req.body;
         if(!email || !password){
@@ -72,7 +118,7 @@ export const logIn =  async (req, res) => {
     }
 };
 
-export const logout = async(req,res) => {
+const logout = async(req,res) => {
    try{
     res.clearCookie('token', {
         httpOnly : true,
@@ -86,3 +132,5 @@ export const logout = async(req,res) => {
       res.json({message : `${err}`})
    }
 }
+
+module.exports = {register,logIn,logout};

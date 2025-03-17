@@ -1,6 +1,6 @@
 const User = require("../models/user")
 
-export const user = async (req, res) => {
+const user = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
@@ -12,3 +12,5 @@ export const user = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
+module.exports = user;

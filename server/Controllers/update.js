@@ -1,8 +1,8 @@
-const User = require("../models/userModel");
+const User = require("../models/user");
 const Professional = require("../models/registerForm")
 
 // Update User Profile
-export const profileUpdate =  async (req, res) => {
+const  profileUpdate =  async (req, res) => {
     const { fullName, bio, phone, profilePicture } = req.body;
 
     try {
@@ -27,7 +27,7 @@ export const profileUpdate =  async (req, res) => {
 
 
 // Update Professional Details
-export const professioanlUpd =  async (req, res) => {
+ const professioanlUpd =  async (req, res) => {
     const { servicesOffered, experience, location, availability, bio } = req.body;
 
     try {
@@ -53,7 +53,7 @@ export const professioanlUpd =  async (req, res) => {
 
 
 // Update Password
-export const updatePassword =  async (req, res) => {
+const updatePassword =  async (req, res) => {
     const { oldPassword, newPassword } = req.body;
 
     try {
@@ -78,3 +78,4 @@ export const updatePassword =  async (req, res) => {
     }
 };
 
+module.exports = {profileUpdate,updatePassword,professioanlUpd};

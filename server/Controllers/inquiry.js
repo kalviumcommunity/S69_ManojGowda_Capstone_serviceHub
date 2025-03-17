@@ -1,6 +1,6 @@
 const User = require("../models/user");
-const Inquery = require("../models/inquiry")
-export const showInquiry = async (req, res) => {
+const Inquiry = require("../models/inquiry")
+const showInquiry = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) {
@@ -9,10 +9,10 @@ export const showInquiry = async (req, res) => {
 
         let queries;
         if (user.role === "client") {
-            queries = await Inquery.find({ clientId: req.params.id })
+            queries = await Inquiry.find({ clientId: req.params.id })
                 .populate("professionalId", "name email role");
         } else if (user.role === "professional") {
-            queries = await Inquery.find({ professionalId: req.params.id })
+            queries = await Inquiry.find({ professionalId: req.params.id })
                 .populate("clientId", "name email role");
         }
 
@@ -23,14 +23,14 @@ export const showInquiry = async (req, res) => {
     }
 };
 
-export const postInquiry =  async (req, res) => {
+const postInquiry =  async (req, res) => {
     try {
         const { serviceRequested, message } = req.body;
         if (!message || !serviceRequested) {
             return res.status(400).json({ message: "All fields are required!" });
         }
 
-        const info = await Inquery.create({
+        const info = await Inquiry.create({
             serviceRequested,
             message
         });
@@ -42,3 +42,5 @@ export const postInquiry =  async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
+module.exports = {postInquiry,showInquiry};
