@@ -7,7 +7,7 @@ const user= require("../Controllers/user.js");
 const { Professionals,professional, professionalRegister } = require('../Controllers/professionals.js');
 const { showInquiry, postInquiry } = require('../Controllers/inquiry.js');
 const { reviews, postReview } = require('../Controllers/review.js');
-const transaction = require("../Controllers/transaction.js");
+const transaction = require("../Controllers/transaction.js");   
 const { profileUpdate, professioanlUpd, updatePassword } = require('../Controllers/update.js');
 
 //AUTH ROUTES
