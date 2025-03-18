@@ -1,10 +1,10 @@
 import './App.css'
-
+import LandingPage from './pages/landingPage'
 function App() {
 
   return (
     <>
-      <h1>Welcome to serviceHub</h1>
+      <LandingPage/>
     </>
   )
 }

@@ -101,6 +101,8 @@ const logIn =  async (req, res) => {
         if (!user) {
             return res.status(200).json({ message: `No user found with email ${email}` });
         }
+        
+        //Authenticating user based on the hased password stored in the dataBase
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
