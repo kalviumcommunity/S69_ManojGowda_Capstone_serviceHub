@@ -9,6 +9,7 @@ const { showInquiry, postInquiry } = require('../Controllers/inquiry.js');
 const { reviews, postReview } = require('../Controllers/review.js');
 const transaction = require("../Controllers/transaction.js");   
 const { profileUpdate, professioanlUpd, updatePassword } = require('../Controllers/update.js');
+const deleteUser = require("../Controllers/delete.js")
 
 //AUTH ROUTES
 route.post("/auth/signup",register);
@@ -19,6 +20,7 @@ route.post("/auth/logout",logout)
 route.get("/user/:id",user);
 route.put("/user-update", profileUpdate)
 route.put("/update-pass",updatePassword)
+route.delete("/delete/:id",deleteUser)
 
 
 //PROFESSIONALS ROUTES

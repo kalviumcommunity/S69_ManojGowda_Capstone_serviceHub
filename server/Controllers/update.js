@@ -3,24 +3,22 @@ const Professional = require("../models/registerForm")
 
 // Update User Profile
 const  profileUpdate =  async (req, res) => {
-    const { fullName, bio, phone, profilePicture } = req.body;
+    const { name,email, profilePicture } = req.body;
 
     try {
-        const user = await User.findById(req.user.userId);
+        const user = await User.findOne({email});
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        if (fullName) user.fullName = fullName;
-        if (bio) user.bio = bio;
-        if (phone) user.phone = phone;
+        if (name) user.name = name;
         if (profilePicture) user.profilePicture = profilePicture;
 
         await user.save();
         res.json({ message: "Profile updated successfully", user });
     } catch (error) {
-        res.status(500).json({ message: "Server error" });
+        res.status(500).json({ message: `Server error: ${error}` });
     }
 };
 
