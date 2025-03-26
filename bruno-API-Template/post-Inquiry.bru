@@ -1,0 +1,20 @@
+meta {
+  name: post-Inquiry
+  type: http
+  seq: 13
+}
+
+post {
+  url: http://localhost:3010/api/inquiry
+  body: json
+  auth: inherit
+}
+
+body:json {
+   {
+          "professionalId": "67e382ac70b3659cb3aa8672",
+          "serviceRequested": "Graphic Design",
+          "message": "Need a professional logo and branding package for my new business.",
+          "status": "Pending"
+      }
+}

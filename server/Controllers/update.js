@@ -1,12 +1,13 @@
 const User = require("../models/user");
-const Professional = require("../models/registerForm")
+const Professional = require("../models/registerForm");
+const bcrypt = require("bcryptjs");
 
 // Update User Profile
-const  profileUpdate =  async (req, res) => {
-    const { name,email, profilePicture } = req.body;
+const profileUpdate = async (req, res) => {
+    const { name, email, profilePicture, userId } = req.body;
 
     try {
-        const user = await User.findOne({email});
+        const user = await User.findById(userId);
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -22,14 +23,12 @@ const  profileUpdate =  async (req, res) => {
     }
 };
 
-
-
 // Update Professional Details
- const professioanlUpd =  async (req, res) => {
-    const { servicesOffered, experience, location, availability, bio } = req.body;
+const professionalUpd = async (req, res) => {
+    const { servicesOffered, experience, location, availability, bio, userId } = req.body;
 
     try {
-        const professional = await Professional.findOne({ userId: req.user.userId });
+        const professional = await Professional.findOne({ userId : userId });
 
         if (!professional) {
             return res.status(404).json({ message: "Professional profile not found" });
@@ -48,14 +47,12 @@ const  profileUpdate =  async (req, res) => {
     }
 };
 
-
-
 // Update Password
-const updatePassword =  async (req, res) => {
-    const { oldPassword, newPassword } = req.body;
+const updatePassword = async (req, res) => {
+    const { oldPassword, newPassword, userId } = req.body;
 
     try {
-        const user = await User.findById(req.user.userId);
+        const user = await User.findById(userId);
 
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -76,4 +73,4 @@ const updatePassword =  async (req, res) => {
     }
 };
 
-module.exports = {profileUpdate,updatePassword,professioanlUpd};
+module.exports = { profileUpdate, updatePassword, professionalUpd };

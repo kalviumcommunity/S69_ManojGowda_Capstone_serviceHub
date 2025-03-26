@@ -1,11 +1,12 @@
-const Professional = require("../models/registerForm")
+const Professional = require("../models/registerForm");
 const User = require("../models/user");
-const Professionals =  async (req, res) => {
+
+const Professionals = async (req, res) => {
     try {
-        const professionals = await Professional.find({ profession: req.params.profession });
+        const professionals = await Professional.find({ profession: req.body.profession });
 
         if (professionals.length === 0) {
-            return res.status(404).json({ message: `No users with the role: ${req.params.profession}` });
+            return res.status(404).json({ message: `No users with the role: ${req.body.profession}` });
         }
         res.status(200).json(professionals);
     } catch (err) {
@@ -14,12 +15,13 @@ const Professionals =  async (req, res) => {
     }
 };
 
-const professional =  async (req, res) => {
+const professional = async (req, res) => {
     try {
-        const professional = await Professional.findOne({ _id: req.params.id, role: "professional" });
+        const professional = await Professional.findOne({ 
+            userId: req.body.userId});
 
         if (!professional) {
-            return res.status(404).json({ message: `No professional found with this ${req.params.id}` });
+            return res.status(404).json({ message: `No professional found with this ${req.body.userId}` });
         }
         res.status(200).json(professional);
     } catch (err) {
@@ -28,32 +30,27 @@ const professional =  async (req, res) => {
     }
 };
 
-
-
 const professionalRegister = async (req, res) => {
     try {
-        const { fullName, email, profession, experience, location, bio, servicesOffered, availability, phone } = req.body;
+        const { userId, fullName, email, profession, experience, location, bio, servicesOffered, availability, phone } = req.body;
 
-        if (!fullName || !email || !profession || !experience || !location || !bio || !servicesOffered || !availability || !phone) {
+        if (!userId || !fullName || !email || !profession || !experience || !location || !bio || !servicesOffered || !availability || !phone) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-    
-        const user = await User.findOne({ email });
+        const user = await User.findById(userId);
 
         if (!user) {
             return res.status(404).json({ message: "User not found. Please register first." });
         }
 
-    
         const existingProfessional = await Professional.findOne({ userId: user._id });
         if (existingProfessional) {
             return res.status(400).json({ message: "User is already registered as a professional." });
         }
 
-    
         const register = await Professional.create({
-            userId: user._id, 
+            userId: user._id,
             fullName,
             email,
             phone,
@@ -61,7 +58,7 @@ const professionalRegister = async (req, res) => {
             experience,
             location,
             bio,
-            servicesOffered : Array.isArray(servicesOffered) ? servicesOffered : [servicesOffered], 
+            servicesOffered: Array.isArray(servicesOffered) ? servicesOffered : [servicesOffered],
             availability
         });
 
@@ -73,4 +70,4 @@ const professionalRegister = async (req, res) => {
     }
 };
 
-module.exports = {professionalRegister,professional,Professionals}
+module.exports = { professionalRegister, professional, Professionals };
