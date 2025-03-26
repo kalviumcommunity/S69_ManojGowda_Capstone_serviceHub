@@ -1,0 +1,20 @@
+meta {
+  name: user Registration
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3010/api/auth/signup
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name" : "Venkateswara",
+    "email" : "venkateswarakonetisetty@gmail.com",
+    "password" : "Venky@1234",
+    "role" : "client"
+  }
+}

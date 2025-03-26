@@ -47,3 +47,155 @@
   background-position: center;
   filter: brightness(75%) contrast(125%);
 } */
+
+/* Reset default styles */
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+} */
+
+/* Footer styling */
+/* Reset default styles */
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+
+/* Footer styling */
+.footer {
+  background-color: #000;
+  color: #fff;
+  padding: 60px 40px 70px;
+  position: relative;
+  width: 100%;
+}
+
+/* Main container to split left and right sections */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Left Section: Logo, Input, and Button */
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-input-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.foIn {
+  border: 2px solid white;
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #fff;
+  font-size: 16px;
+  width: 200px;
+}
+
+.foIn::placeholder {
+  color: #ccc;
+}
+
+/* Right Section: Links, Social Icons, and Copyright */
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 30px;
+}
+
+/* Footer links */
+.footer-links {
+  display: flex;
+  justify-content: flex-end;
+  gap: 40px;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/* .footer-links a:nth-child(1),
+.footer-links a:nth-child(2) {
+  text-transform: lowercase;
+}
+
+.footer-links a:nth-child(3),
+.footer-links a:nth-child(4) {
+  text-transform: uppercase;
+} */
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* Social media icons */
+.footer-social {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.footer-social a {
+  color: #fff;
+  font-size: 16px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.footer-social a:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Copyright text */
+.footer-copyright {
+  font-size: 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .footer-left,
+  .footer-right {
+    align-items: flex-start;
+  }
+
+  .footer-links,
+  .footer-social {
+    justify-content: flex-start;
+  }
+
+  .footer-copyright {
+    text-align: left;
+  }
+}
+button{
+  cursor: pointer;
+}

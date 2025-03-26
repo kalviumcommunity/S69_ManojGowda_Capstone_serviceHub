@@ -1,5 +1,6 @@
 const express = require('express')
 const route = express.Router();
+const userAuth = require('../middleware/userAuth.js')
 
 
 const {register,logIn, logout} = require('../Controllers/authentication.js')
@@ -8,7 +9,7 @@ const { Professionals,professional, professionalRegister } = require('../Control
 const { showInquiry, postInquiry } = require('../Controllers/inquiry.js');
 const { reviews, postReview } = require('../Controllers/review.js');
 const transaction = require("../Controllers/transaction.js");   
-const { profileUpdate, professioanlUpd, updatePassword } = require('../Controllers/update.js');
+const { profileUpdate, professionalUpd, updatePassword } = require('../Controllers/update.js');
 const deleteUser = require("../Controllers/delete.js")
 
 //AUTH ROUTES
@@ -17,27 +18,27 @@ route.post("/auth/login",logIn);
 route.post("/auth/logout",logout)
 
 //USER ROUTES
-route.get("/user/:id",user);
-route.put("/user-update", profileUpdate)
-route.put("/update-pass",updatePassword)
-route.delete("/delete/:id",deleteUser)
+route.get("/user",userAuth,user);
+route.put("/user-update",userAuth, profileUpdate)
+route.put("/update-pass",userAuth,updatePassword)
+route.delete("/delete",userAuth,deleteUser)
 
 
 //PROFESSIONALS ROUTES
-route.get("/professional/:profession",Professionals)
-route.get("/professional/:profession/:id",professional);
-route.post("/register",professionalRegister);
-route.put("/update-pro",professioanlUpd)
+route.get("/professionals/profession",userAuth,Professionals)
+route.get("/professional",userAuth,professional);
+route.post("/register",userAuth,professionalRegister);
+route.put("/update-pro",userAuth,professionalUpd)
 
 //INQUIRY ROUTES
-route.get("/inquiry/:id",showInquiry);
-route.post("/inquiry",postInquiry);
+route.get("/inquiry",userAuth,showInquiry);
+route.post("/inquiry",userAuth,postInquiry);
 
 //REVIEW ROUTES
-route.get("/reviews/:userId",reviews);
-route.post("/review",postReview);
+route.get("/reviews",userAuth,reviews);
+route.post("/review",userAuth,postReview);
 
 //TRANSACTION 
-route.get("/transaction/:id",transaction)
+route.get("/transaction",userAuth,transaction)
 
 module.exports = route;

@@ -1,0 +1,18 @@
+meta {
+  name: update-user
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:3010/api/user-update
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name" : "Konetisetty Venkateswara",
+    "email" : "venkateswarakonetisetty@gmail.com"
+  }
+}
