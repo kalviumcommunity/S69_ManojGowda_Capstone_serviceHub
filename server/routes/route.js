@@ -3,7 +3,8 @@ const route = express.Router();
 const userAuth = require('../middleware/userAuth.js')
 
 
-const {register,logIn, logout} = require('../Controllers/authentication.js')
+
+const {register,logIn, logout, googleLogin} = require('../Controllers/authentication.js')
 const user= require("../Controllers/user.js");
 const { Professionals,professional, professionalRegister } = require('../Controllers/professionals.js');
 const { showInquiry, postInquiry } = require('../Controllers/inquiry.js');
@@ -16,6 +17,7 @@ const deleteUser = require("../Controllers/delete.js")
 route.post("/auth/signup",register);
 route.post("/auth/login",logIn);
 route.post("/auth/logout",logout)
+route.post("/auth/google", googleLogin)
 
 //USER ROUTES
 route.get("/user",userAuth,user);
