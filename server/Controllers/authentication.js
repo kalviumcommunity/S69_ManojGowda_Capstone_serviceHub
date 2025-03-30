@@ -2,6 +2,8 @@ const User = require("../models/user")
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken')
 const transporter = require('../config/nodemailer')
+const axios = require('axios')
+
 require('dotenv').config()
 
 const register =  async (req, res) => {
@@ -140,4 +142,62 @@ const logout = async(req,res) => {
    }
 }
 
-module.exports = {register,logIn,logout};
+const googleLogin = async (req, res) => {
+    const { token, role } = req.body; 
+
+    try {
+        
+        const googleResponse = await axios.get(`https://oauth2.googleapis.com/tokeninfo?id_token=${token}`);
+        
+        if (!googleResponse.data.email) {
+            return res.status(401).json({ message: "Invalid Google Token" });
+        }
+
+        const { email, name, picture, sub } = googleResponse.data; 
+
+        
+        let user = await User.findOne({ email});
+
+        if (!user) {
+            
+            const randomPassword = Math.random().toString(36).slice(-8);
+            const hashedPassword = await bcrypt.hash(randomPassword, 10);
+
+            
+            user = new User({
+                googleId: sub,
+                name,
+                email,
+                password: hashedPassword,  
+                picture,
+                provider: "google",
+                role: role || "client"  
+            });
+
+            await user.save();
+        }
+
+        
+        const jwtToken = jwt.sign(
+            { id: user._id, name: user.name, email: user.email, picture: user.picture, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        
+        res.cookie("token", jwtToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 1000 
+        });
+
+        res.json({ message: "Login successful", token: jwtToken });
+
+    } catch (error) {
+        console.error("Google Auth Error:", error);
+        res.status(401).json({ message: "Invalid Google Token" });
+    }
+};
+
+module.exports = {register,logIn,logout,googleLogin};
