@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../assets/logo.svg';
-
+import {Link} from 'react-router-dom'
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -59,15 +59,15 @@ function NavBar() {
           } md:flex md:items-center w-full md:w-auto absolute md:static top-16 left-0 bg-black md:bg-transparent px-4 md:px-0 py-4 md:py-0`}
         >
           <div className="flex flex-col md:flex-row md:gap-4 lg:gap-6 text-white">
-            <button className="font-[Junge] text-base sm:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg font-normal hover:text-gray-300 transition cursor-pointer">
+           <Link to="/signup"><button className="font-[Junge] text-base sm:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg font-normal hover:text-gray-300 transition cursor-pointer">
               Sign up
-            </button>
-            <button className="font-[Junge] text-base sm:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg font-normal hover:text-gray-300 transition cursor-pointer">
+            </button></Link> 
+            <Link to="/login"><button className="font-[Junge] text-base sm:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg font-normal hover:text-gray-300 transition cursor-pointer">
               Login
-            </button>
-            <button className="font-[Junge] text-base sm:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg font-normal hover:text-gray-300 transition cursor-pointer">
+            </button></Link>
+            <Link to="/register"><button className="font-[Junge] text-base sm:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg font-normal hover:text-gray-300 transition cursor-pointer">
               Professional Register
-            </button>
+            </button></Link>
           </div>
         </div>
       </div>

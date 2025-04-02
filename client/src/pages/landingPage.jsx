@@ -8,7 +8,8 @@ import pro3 from '../assets/pro3.webp';
 import l3 from '../assets/l3.webp';
 import l4 from '../assets/l4.jpeg';
 import Footer from "../components/footer";
-
+import {Link} from 'react-router-dom'
+ 
 function LandingPage() {
   return (
     <>
@@ -36,9 +37,9 @@ function LandingPage() {
         <p className="text-lg sm:text-xl md:text-2xl text-[#EEEEEE] font-semibold mt-2">
           Effortlessly and Securely!
         </p>
-        <button className="bg-[#0574B9] text-[#EEEEEE] text-base sm:text-lg md:text-xl mt-6 px-4 sm:px-6 py-2 rounded-lg font-normal hover:bg-[#045a8d] transition cursor-pointer">
+        <Link to="/signup"><button className="bg-[#0574B9] text-[#EEEEEE] text-base sm:text-lg md:text-xl mt-6 px-4 sm:px-6 py-2 rounded-lg font-normal hover:bg-[#045a8d] transition cursor-pointer">
           Get Started
-        </button>
+        </button></Link>
       </div>
     </div>
   </div>

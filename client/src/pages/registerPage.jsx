@@ -1,6 +1,8 @@
 import React from "react";
 import { FaHome } from "react-icons/fa";
 import bgImg from '../assets/bg.jpeg';
+import {Link} from 'react-router-dom'
+
 
 function Register() {
   return (
@@ -13,9 +15,9 @@ function Register() {
 
       {/* Home Button */}
       <div className="absolute top-4 left-4">
-        <button className="text-white text-3xl">
+        <Link to="/"><button className="text-white text-3xl">
           <FaHome />
-        </button>
+        </button></Link>
       </div>
 
       {/* Form Container */}

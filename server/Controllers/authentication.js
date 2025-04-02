@@ -95,13 +95,13 @@ const logIn =  async (req, res) => {
     try {
         const { email, password } = req.body;
         if(!email || !password){
-            return res.json({message : "email and password are required"})
+            return res.status(400).json({message : "email and password are required"})
         }
 
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(200).json({ message: `No user found with email ${email}` });
+            return res.status(404).json({ message: `No user found with email ${email}` });
         }
         
         //Authenticating user based on the hased password stored in the dataBase
