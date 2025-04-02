@@ -1,53 +1,154 @@
-import React from "react";
-import pro2 from "../assets/pro2.webp";
-import { FaPencilAlt } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { FaPencilAlt, FaArrowLeft } from "react-icons/fa";
 import { CiLocationOn } from "react-icons/ci";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProfileCard = () => {
+  const [user, setUser] = useState(null);
+  const [edit, setEdit] = useState(false);
+  const [editData, setEditData] = useState({ name: "", email: "", profession: "", phone: "", picture: "" });
+  const [previewImage, setPreviewImage] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const navigate = useNavigate(); // Fix for navigation
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get("http://localhost:3010/api/user", {
+          withCredentials: true,
+        });
+        setUser(res.data);
+        setEditData(res.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  const handleEdit = () => setEdit(true);
+  const handleCancel = () => setEdit(false);
+
+  const handleEditData = async () => {
+    try {
+      const res = await axios.put("http://localhost:3010/api/user-update", editData, {
+        withCredentials: true,
+      });
+      console.log(res.data);
+      setUser(editData);
+      setEdit(false);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const res = await axios.delete("http://localhost:3010/api/delete", {
+        withCredentials: true,
+      });
+      if (res.status === 200) {
+        navigate("/");
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
-    <div className="bg-gradient-to-b from-[#121111] to-[#787878] min-h-screen flex items-center justify-center p-4 text-white">
+    <div className="bg-gradient-to-b from-[#121111] to-[#787878] min-h-screen flex items-center justify-center p-4 text-white relative">
+      <Link to="/">
+        <FaArrowLeft className="text-xl cursor-pointer absolute left-5 top-7" />
+      </Link>
       <div className="bg-[#FFFAFA]/60 p-4 sm:p-8 rounded-lg flex flex-col md:flex-row md:space-x-4 items-center md:items-start shadow-lg w-full max-w-md md:max-w-2xl">
-        
-        {/* Profile Image */}
-        <div className="flex-shrink-0">
-          <img
-            src={pro2}
-            alt="Profile"
-            className="rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-44 md:h-44 object-cover border-4 border-gray-500"
-          />
-        </div>
+        {edit ? (
+          <div className="w-full md:flex-1 flex flex-col items-center md:items-start text-center md:text-left">
+            {/* Profile Editing Section */}
+            <div className="flex flex-col items-center md:items-start mb-4">
+              <label className="text-gray-300 font-semibold">Profile Picture</label>
+              <input type="file" accept="image/*" onChange={(e) => setPreviewImage(URL.createObjectURL(e.target.files[0]))} className="bg-gray-800 text-white border border-gray-600 p-2 rounded-md w-full cursor-pointer mt-2" />
+              {previewImage && <img src={previewImage} alt="Preview" className="mt-3 w-24 h-24 rounded-full border border-gray-500 object-cover" />}
+            </div>
+            <div className="mt-3 space-y-3 text-sm sm:text-base w-full">
+              <label className="text-blue-400 font-semibold">Name</label>
+              <input type="text" name="name" value={editData.name} onChange={(e) => setEditData({ ...editData, [e.target.name]: e.target.value })} className="bg-gray-800 text-white border border-gray-600 p-2 rounded-md w-full" />
 
-        {/* Profile Details */}
-        <div className="w-full pl-10  md:flex-1 flex flex-col items-center md:items-start text-center md:text-left md:pr-0">
-          <div className="flex items-center w-full">
-            <h2 className="text-lg sm:text-2xl font-bold font-[Judson]">John Doe</h2>
-            <FaPencilAlt className="hidden md:block cursor-pointer hover:text-gray-900 transition text-lg sm:text-base ml-auto" />
-          </div>
-          
-          <p className="flex justify-center md:justify-start items-center text-sm sm:text-base mt-2">
-            <CiLocationOn className="text-lg sm:text-base mr-1" /> Mumbai
-          </p>
+              <label className="text-blue-400 font-semibold">Email</label>
+              <input type="text" name="email" value={editData.email} onChange={(e) => setEditData({ ...editData, [e.target.name]: e.target.value })} className="bg-gray-800 text-white border border-gray-600 p-2 rounded-md w-full" />
 
-          <div className="mt-3 space-y-2 text-sm sm:text-base w-full">
-            <p className="font-[Judson]">
-              <span className="font-semibold text-[#0574B9]">Email: </span>&nbsp;&nbsp; johndoe@gmail.com
-            </p>
-            <p className="font-[Judson]">
-              <span className="font-semibold text-[#0574B9]">Profession: </span>&nbsp;&nbsp; Lawyer
-            </p>
-            <p className="font-[Judson]">
-              <span className="font-semibold text-[#0574B9]">Phone: </span>&nbsp;&nbsp; 9038247684
-            </p>
-          </div>
+              <label className="text-blue-400 font-semibold">Profession</label>
+              <input type="text" name="profession" value={editData.profession} onChange={(e) => setEditData({ ...editData, [e.target.name]: e.target.value })} className="bg-gray-800 text-white border border-gray-600 p-2 rounded-md w-full" />
 
-          {/* Centered Button */}
-          <div className="flex justify-center md:justify-start mt-5 w-full">
-            <button className="bg-[#0574B9] text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition text-sm sm:text-base">
-              Inquiry History
-            </button>
+              <label className="text-blue-400 font-semibold">Phone</label>
+              <input type="number" name="phone" value={editData.phone} onChange={(e) => setEditData({ ...editData, [e.target.name]: e.target.value })} className="bg-gray-800 text-white border border-gray-600 p-2 rounded-md w-full" />
+            </div>
+
+            <div className="flex mt-5 w-full space-x-3">
+              <button onClick={handleEditData} className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition w-full">
+                Save
+              </button>
+              <button onClick={handleCancel} className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition w-full">
+                Cancel
+              </button>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="w-full md:grid md:grid-cols-[1fr_2fr] flex flex-col items-center md:items-start text-center md:text-left">
+            {user && (
+              <div className="flex-shrink-0">
+                <img src={user.picture} alt="Profile" className="rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-44 md:h-44 object-cover border-4 border-gray-500" />
+              </div>
+            )}
+            <div className="mt-3 space-y-2 text-sm sm:text-base w-full">
+              <div className="flex flex-col md:flex-row items-center w-full">
+                <h2 className="text-lg sm:text-2xl font-bold">{user && user.name}</h2>
+                <FaPencilAlt onClick={handleEdit} className="block cursor-pointer hover:text-gray-900 transition text-lg ml-auto" />
+              </div>
+              <p className="flex justify-center md:justify-start items-center text-sm sm:text-base mt-2">
+                <CiLocationOn className="text-lg mr-1" /> Mumbai
+              </p>
+              <p>
+                <span className="font-semibold text-[#0574B9]">Email: </span>
+                {user && user.email}
+              </p>
+              <p>
+                <span className="font-semibold text-[#0574B9]">Profession: </span>
+                {user && user.profession}
+              </p>
+              <p>
+                <span className="font-semibold text-[#0574B9]">Phone: </span>
+                {user && user.phone}
+              </p>
+              <div className="flex flex-row gap-2 items-start mt-5">
+                <button className="bg-[#0574B9] text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition">Inquiry History</button>
+                <button className="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition" onClick={() => setShowConfirm(true)}>
+                  Delete Account
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Confirmation Modal */}
+      {showConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg text-center shadow-lg">
+            <p className="text-gray-800 font-semibold">Are you sure you want to delete your account?</p>
+            <div className="mt-4 flex justify-center space-x-3">
+              <button className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700" onClick={handleDelete}>
+                Confirm
+              </button>
+              <button className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500" onClick={() => setShowConfirm(false)}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
