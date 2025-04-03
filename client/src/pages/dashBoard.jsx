@@ -1,17 +1,37 @@
-
-import React from 'react';
+import {React, useEffect,useState} from 'react';
 import ServiceSection from '../components/serviceSection';
 import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
 import { FaHome } from "react-icons/fa";
-
+import pro2 from '../assets/pro2.webp'
 // Placeholder images (replace with actual image paths)
 import lawImage from '../assets/law.jpg';
 import accountingImage from '../assets/accounting.webp';
 import digitalMarketingImage from '../assets/digital-marketing.jpg';
 import caImage from '../assets/chartered-accountant-services.jpg';
 import tradeImage from '../assets/service_professionalsinc_cover.jpeg';
+import axios from 'axios'
+
 
 const App = () => {
+   const [user,setUser] = useState()
+   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get("http://localhost:3010/api/user", {
+          withCredentials: true
+        });
+        console.log(res.data);
+        setUser(res.data); // Store user data in state
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+  
+    fetchUser();
+  }, []);
+
+
+
   const services = [
     {
       title: 'Legal Services',
@@ -54,9 +74,9 @@ const App = () => {
     <div className="min-h-screen bg-gradient-to-b from-[#121111] to-[#787878] text-white">
       {/* Header */}
       <header className="flex justify-between items-center p-4">
-        <FaHome className='text-2xl ml-7'/>
+        <Link to="/"><FaHome className='text-2xl ml-7'/></Link>
         <h1 className="text-3xl font text-center flex-1">Your One-Stop Hub for Professional Services</h1>
-        <div className="w-10 h-10 bg-gray-600 rounded-full"></div> {/* Placeholder for profile icon */}
+        <Link to="/profile"><div className="w-10 h-10 bg-gray-600 rounded-full">{user && <img src={user.picture} className='w-10 h-10 rounded-full'/>}</div></Link> {/* Placeholder for profile icon */}
       </header>
 
       {/* Main Content */}
@@ -72,6 +92,7 @@ const App = () => {
           />
         ))}
       </main>
+
     </div>
   );
 };

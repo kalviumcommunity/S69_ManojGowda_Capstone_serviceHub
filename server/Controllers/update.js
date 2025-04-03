@@ -4,8 +4,7 @@ const bcrypt = require("bcryptjs");
 
 // Update User Profile
 const profileUpdate = async (req, res) => {
-    const { name, email, profilePicture, userId } = req.body;
-
+    const { name, email, profilePicture, userId,profession,phone } = req.body;
     try {
         const user = await User.findById(userId);
 
@@ -14,10 +13,12 @@ const profileUpdate = async (req, res) => {
         }
 
         if (name) user.name = name;
+        if(profession) user.profession = profession
+        if(phone) user.phone = phone
         if (profilePicture) user.profilePicture = profilePicture;
 
         await user.save();
-        res.json({ message: "Profile updated successfully", user });
+        res.status(200).json({ message: "Profile updated successfully", user });
     } catch (error) {
         res.status(500).json({ message: `Server error: ${error}` });
     }

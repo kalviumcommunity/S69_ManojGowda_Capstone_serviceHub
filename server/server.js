@@ -13,9 +13,17 @@ connectDB();
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true 
+    origin: "http://localhost:5173",  // Change this to your frontend URL
+    credentials: true,                // Allow credentials (cookies, tokens)
+    methods: ["GET", "POST", "PUT", "DELETE"],  
+    allowedHeaders: ["Content-Type", "Authorization"]
 }));
+app.use((req, res, next) => {
+    res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+    res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+    next();
+});
+
 
 
 
