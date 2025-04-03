@@ -1,6 +1,8 @@
 import './App.css';
 import LandingPage from './pages/landingPage';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from "./context/AuthContext";
+import AdminRoute from "./routes/AdminRoute";
 import Signup from './pages/signup';
 import Login from './pages/login';
 import RegisterPage from './pages/registerPage';
@@ -17,8 +19,10 @@ import ListProfess from './pages/ListProfess'
 function App() {
   return (
 
-      <BrowserRouter>
+<AuthProvider>
+      <Router>
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
@@ -29,11 +33,16 @@ function App() {
           <Route path='/profile' element={<UserProfile/>}/>
           <Route path='/inquiry' element={<InquiryForm/>}/>
           <Route path="/inquiryDisplay" element ={<InquiryDisplay/>}/>
-          <Route path="/verify" element={<AcceptPro/>}/>
           <Route path="/list" element={<ListProfess/>}/>
           <Route path="*" element={<NotFound />} />
+
+          {/* Protected Admin Route */}
+          <Route element={<AdminRoute />}>
+            <Route path="/verify" element={<AcceptPro />} />
+          </Route>
         </Routes>
-      </BrowserRouter>
+      </Router>
+    </AuthProvider>
 
   );
 }

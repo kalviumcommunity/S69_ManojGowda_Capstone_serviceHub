@@ -27,7 +27,7 @@ route.delete("/delete",userAuth,deleteUser)
 
 
 //PROFESSIONALS ROUTES
-route.get("/professionals/profession",userAuth,Professionals)
+route.get("/professionals/category",userAuth,Professionals)
 route.get("/professional",userAuth,professional);
 route.post("/register",userAuth,professionalRegister);
 route.put("/update-pro",userAuth,professionalUpd)

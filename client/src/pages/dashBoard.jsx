@@ -14,7 +14,7 @@ import tradeImage from '../assets/service_professionalsinc_cover.jpeg';
 const App = () => {
   const services = [
     {
-      title: 'Law',
+      title: 'Legal Services',
       description: 'Law is the foundation of a just and orderly society, ensuring fairness, accountability, and the protection of individual rights. Whether navigating corporate regulations, settling disputes, or seeking justice, expert legal guidance is essential. Our platform connects you with experienced lawyers specializing in various fields, from corporate law and intellectual property to criminal defense and estate planning. Get the right legal support tailored to your needs and make informed decisions with confidence.',
       image: lawImage,
       imageAlt: 'Law books and gavel',
@@ -35,7 +35,7 @@ const App = () => {
       reverse: false,
     },
     {
-      title: 'Chartered Accountancy',
+      title: 'Chartered Accountant',
       description: 'Chartered Accountancy is a prestigious profession that plays a crucial role in financial management, auditing, taxation, and business advisory services. CAs ensure compliance with financial regulations, provide strategic financial planning, and help businesses optimize their financial health. Their expertise spans across industries, assisting organizations in making informed decisions based on financial analysis and risk assessment. Whether in corporate finance, taxation, or auditing, CAs provide invaluable support to businesses.',
       image: caImage,
       imageAlt: 'Chartered Accountancy logo',

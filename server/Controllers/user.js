@@ -3,8 +3,8 @@ const User = require("../models/user")
 const user = async (req, res) => {
     try {
 
-        const user = await User.findById(req.body.userId);
-        console.log(req.body.userId);
+        const user = await User.findById(req.body.userId).select("name role");
+        console.log(req.body.userId,user.role);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }

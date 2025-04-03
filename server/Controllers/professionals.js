@@ -3,11 +3,18 @@ const User = require("../models/user");
 
 const Professionals = async (req, res) => {
     try {
-        const professionals = await Professional.find({ profession: req.body.profession });
+        const { category } = req.query; 
+
+        if (!category) {
+            return res.status(400).json({ message: "Category is required" });
+        }
+
+        const professionals = await Professional.find({ category, isApproved: true }).select("fullName bio profilePicture");
 
         if (professionals.length === 0) {
-            return res.status(404).json({ message: `No users with the role: ${req.body.profession}` });
+            return res.status(404).json({ message: `No users found for category: ${category}` });
         }
+
         res.status(200).json(professionals);
     } catch (err) {
         console.error(err);
@@ -32,9 +39,9 @@ const professional = async (req, res) => {
 
 const professionalRegister = async (req, res) => {
     try {
-        const { userId, fullName, email, profession, experience, location, bio, servicesOffered, availability, phone } = req.body;
+        const { userId, fullName, email, profession, experience, location, bio, servicesOffered, availability, phone ,category} = req.body;
 
-        if (!userId || !fullName || !email || !profession || !experience || !location || !bio || !servicesOffered || !availability || !phone) {
+        if (!userId || !fullName || !email || !profession || !experience || !location || !bio || !servicesOffered || !availability || !phone || !category) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -48,6 +55,7 @@ const professionalRegister = async (req, res) => {
         if (existingProfessional) {
             return res.status(400).json({ message: "User is already registered as a professional." });
         }
+        const servicesArray = servicesOffered.split(',').map(service => service.trim());
 
         const register = await Professional.create({
             userId: user._id,
@@ -58,8 +66,9 @@ const professionalRegister = async (req, res) => {
             experience,
             location,
             bio,
-            servicesOffered: Array.isArray(servicesOffered) ? servicesOffered : [servicesOffered],
-            availability
+            servicesOffered: servicesArray,
+            availability,
+            category
         });
 
         console.log(register);

@@ -15,6 +15,7 @@ const professionalSchema = new mongoose.Schema({
     availability: { type: String, enum: ["Full-time", "Part-time", "Freelance"], required: true },
     isApproved: { type: Boolean, default: false }, 
     walletBalance: { type: Number, default: 100 }, 
+    category :{type : String, required:true},
     createdAt: { type: Date, default: Date.now },
 });
 

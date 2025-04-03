@@ -1,4 +1,4 @@
-import React from "react";
+import {React,useState}from "react";
 import bgImg from '../assets/bg.jpeg';
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from 'jwt-decode';
@@ -8,6 +8,28 @@ import axios from 'axios';
 
 function Login() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
+ 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const response = await axios.post(
+        "http://localhost:3010/api/auth/login",
+        { email, password },  
+        { headers: { "Content-Type": "application/json" }, withCredentials: true }
+      );
+  
+      console.log("Success:", response.data);
+      if(response.status === 200){
+        navigate("/dashboard")
+      }
+    } catch (err) {
+      console.error("Error:", err.response?.data || err.message);
+    }
+  };
+  
 
   return (
     <div className="h-screen flex justify-center items-center relative overflow-hidden">
