@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPencilAlt, FaArrowLeft } from "react-icons/fa";
 import { CiLocationOn } from "react-icons/ci";
+import { useNavigate,Link } from "react-router-dom";
 
 const ProfileCard = () => {
   const [user, setUser] = useState(null);
