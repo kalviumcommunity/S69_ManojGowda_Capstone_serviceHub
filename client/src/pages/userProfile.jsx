@@ -10,7 +10,7 @@ const ProfileCard = () => {
   const [editData, setEditData] = useState({ name: "", email: "", profession: "", phone: "", picture: "" });
   const [previewImage, setPreviewImage] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
-
+  const img_url = user ? user.picture : null
   const navigate = useNavigate(); // Fix for navigation
 
   useEffect(() => {
@@ -19,6 +19,7 @@ const ProfileCard = () => {
         const res = await axios.get("http://localhost:3010/api/user", {
           withCredentials: true,
         });
+        console.log(res.data)
         setUser(res.data);
         setEditData(res.data);
       } catch (error) {
@@ -27,6 +28,7 @@ const ProfileCard = () => {
     };
 
     fetchUser();
+    
   }, []);
 
   const handleEdit = () => setEdit(true);
@@ -98,8 +100,8 @@ const ProfileCard = () => {
         ) : (
           <div className="w-full md:grid md:grid-cols-[1fr_2fr] flex flex-col items-center md:items-start text-center md:text-left">
             {user && (
-              <div className="flex-shrink-0">
-                <img src={user.picture} alt="Profile" className="rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-44 md:h-44 object-cover border-4 border-gray-500" />
+              <div className="flex">
+                <img src={img_url} alt="Profile" className="rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-44 md:h-44 object-cover border-4 border-gray-500" />
               </div>
             )}
             <div className="mt-3 space-y-2 text-sm sm:text-base w-full">
