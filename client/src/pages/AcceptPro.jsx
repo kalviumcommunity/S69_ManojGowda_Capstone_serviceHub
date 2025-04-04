@@ -1,29 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import pro1 from '../assets/pro1.webp';
-
-const adminInquiries = [
-  {
-    recipient: "Jeremy Rose",
-    recipientImage: pro1,
-    location: "Mumbai",
-    email: "jeremy@gmail.com",
-    profession: "Lawyer",
-    phone: "9038247684",
-    services: "Legal Consultation, Contract Drafting, Will & Estate Planning, Business Incorporation, Litigation Support",
-  },
-  {
-    recipient: "Jeremy Rose",
-    recipientImage: pro1,
-    location: "Mumbai",
-    email: "jeremy@gmail.com",
-    profession: "Lawyer",
-    phone: "9038247684",
-    services: "Legal Consultation, Contract Drafting, Will & Estate Planning, Business Incorporation, Litigation Support",
-  },
-];
+import axios from "axios";
 
 const AdminInquiriesPage = () => {
+  const [professionals, setProfessionals] = useState(null);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await axios.get("http://localhost:3010/api/recievePro", {
+        withCredentials: true,
+      });
+      setProfessionals(res.data);
+    };
+    fetch();
+  }, []);
+
+  const handleAccept = async(id) => {
+    console.log(id)
+    const res = await axios.patch(
+      "http://localhost:3010/api/approvePro",{
+        professionalId : id
+      },{
+        withCredentials: true
+      }
+    )
+    setProfessionals((prev) => prev.filter((pro) => pro._id !== id));
+    console.log(res.data);
+  }
   return (
     <div className="bg-gradient-to-b from-[#121111] to-[#787878] min-h-screen p-6 text-white">
       {/* Header */}
@@ -32,50 +35,52 @@ const AdminInquiriesPage = () => {
         <h2 className="text-2xl font-bold mx-auto">Professional Profile Listing Requests</h2>
       </div>
 
-      {/* Admin Inquiry Cards */}
+      {/* Inquiry Cards */}
       <div className="space-y-6">
-        {adminInquiries.map((inquiry, index) => (
-          <div
-            key={index}
-            className="bg-[#4a4a4a] p-6 rounded-lg shadow-md flex flex-col sm:flex-row items-center sm:items-start gap-6"
-          >
-            {/* Recipient Image */}
-            <div className="flex flex-col items-center text-center">
-              <img
-                src={inquiry.recipientImage}
-                alt={inquiry.recipient}
-                className="w-16 h-16 rounded-full object-cover"
-              />
-            </div>
-
-            {/* Recipient Details */}
-            <div className="flex-1 text-center sm:text-left">
-              <p className="text-lg font-semibold">{inquiry.recipient}</p>
-              <div className=" text-sm mt-2 flex flex-wrap justify-center sm:justify-start gap-2">
-                <span>
-                  <i className="fas fa-map-marker-alt mr-1"></i>
-                  {inquiry.location}
-                </span>
-                <span>email: {inquiry.email}</span>
-                <span>profession: {inquiry.profession}</span>
-                <span>phone: {inquiry.phone}</span>
+        {professionals &&
+          professionals.map((inquiry, index) => (
+            <div
+              key={index}
+              className="bg-[#3a3a3a] p-6 rounded-xl shadow-lg flex flex-col sm:flex-row gap-6"
+            >
+              {/* Profile Picture */}
+              <div className="flex justify-center sm:block sm:min-w-[80px]">
+                <img
+                  src={inquiry.profilePicture}
+                  alt={inquiry.fullname}
+                  className="w-45 h-45 rounded-full object-cover border-2 border-white"
+                />
               </div>
-              <p className="text-sm mt-2">
-                services offered: {inquiry.services}
-              </p>
-            </div>
 
-            {/* Action Buttons */}
-            <div className="flex gap-4 mt-4 sm:mt-0">
-              <button className="bg-[#0574B9] text-white px-4 py-2 rounded-md font-semibold ">
-                ACCEPT
-              </button>
-              <button className="bg-red-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-red-700">
-                REJECT
-              </button>
+              {/* Content and Buttons Grid */}
+              <div className="flex-1 flex flex-col sm:flex-row sm:justify-between gap-4 w-full">
+                {/* Left: Details */}
+                <div className="flex-1">
+                  <p className="text-xl font-bold">{inquiry.fullname}</p>
+                  <p className="text-sm text-gray-300">{inquiry.profession}</p>
+
+                  <div className="grid sm:grid-cols-2 gap-y-1 text-sm text-gray-200 mt-2">
+                    <p><i className="fas fa-map-marker-alt mr-1"></i>{inquiry.location}</p>
+                    <p><i className="fas fa-envelope mr-1 "></i>{inquiry.email}</p>
+                    <p><i className="fas fa-phone mr-1"></i>{inquiry.phone}</p>
+                    <p><i className="fas fa-briefcase mr-1"></i>Services: {inquiry.servicesOffered}</p>
+                  </div>
+
+                  <p className="mt-3 text-sm italic text-gray-300">“{inquiry.bio}”</p>
+                </div>
+
+                {/* Right: Buttons */}
+                <div className="flex sm:flex-col gap-3 sm:justify-start justify-center items-center sm:items-end">
+                  <button onClick={() => handleAccept(inquiry._id)} className="bg-[#0574B9]  text-white px-4 py-2 rounded-md font-semibold w-32">
+                    ACCEPT
+                  </button>
+                  <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-semibold w-32">
+                    REJECT
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

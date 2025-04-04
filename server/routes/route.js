@@ -6,7 +6,7 @@ const userAuth = require('../middleware/userAuth.js')
 
 const {register,logIn, logout, googleLogin} = require('../Controllers/authentication.js')
 const user= require("../Controllers/user.js");
-const { Professionals,professional, professionalRegister } = require('../Controllers/professionals.js');
+const { Professionals,professional, professionalRegister, sendPro, approvePro } = require('../Controllers/professionals.js');
 const { showInquiry, postInquiry } = require('../Controllers/inquiry.js');
 const { reviews, postReview } = require('../Controllers/review.js');
 const transaction = require("../Controllers/transaction.js");   
@@ -29,8 +29,10 @@ route.delete("/delete",userAuth,deleteUser)
 //PROFESSIONALS ROUTES
 route.get("/professionals/category",userAuth,Professionals)
 route.get("/professional",userAuth,professional);
+route.get("/recievePro",userAuth,sendPro)
 route.post("/register",userAuth,professionalRegister);
 route.put("/update-pro",userAuth,professionalUpd)
+route.patch("/approvePro",userAuth,approvePro)
 
 //INQUIRY ROUTES
 route.get("/inquiry",userAuth,showInquiry);

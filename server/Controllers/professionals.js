@@ -1,6 +1,6 @@
 const Professional = require("../models/registerForm");
 const User = require("../models/user");
-
+require('dotenv').config({ path: './config/.env' })
 const Professionals = async (req, res) => {
     try {
         const { category } = req.query; 
@@ -21,6 +21,57 @@ const Professionals = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
+const sendPro = async (req, res) => {
+    try {
+        const {userId} = req.body
+        
+        if(userId !== process.env.ADMIN_ID){
+            return res.status(404).json({message : "Only Admins are allowed "})
+        }
+        const professionals = await Professional.find({isApproved: false }).select("fullName _id email bio profilePicture location profession phone servicesOffered rating");
+
+        if (professionals.length === 0) {
+            return res.status(404).json({ message: `No new profile listed` });
+        }
+
+        res.status(200).json(professionals);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+
+const approvePro = async (req, res) => {
+    try {
+      const { userId, professionalId } = req.body;
+  
+      // Check if the request is made by an admin
+      if (userId !== process.env.ADMIN_ID) {
+        return res.status(403).json({ message: "Only Admins are allowed" });
+      }
+  
+      // Update the professional's approval status
+      const updatedPro = await Professional.findByIdAndUpdate(
+        professionalId,
+        { isApproved: true },
+        { new: true }
+      );
+  
+      if (!updatedPro) {
+        return res.status(404).json({ message: "Professional not found" });
+      }
+  
+      return res.status(200).json({
+        message: "Professional approved successfully",
+        professional: updatedPro,
+      });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  };
 
 const professional = async (req, res) => {
     try {
@@ -79,4 +130,4 @@ const professionalRegister = async (req, res) => {
     }
 };
 
-module.exports = { professionalRegister, professional, Professionals };
+module.exports = { professionalRegister, professional, Professionals ,sendPro, approvePro};

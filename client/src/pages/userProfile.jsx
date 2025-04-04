@@ -60,11 +60,13 @@ const ProfileCard = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate(-1)
+  }
+
   return (
     <div className="bg-gradient-to-b from-[#121111] to-[#787878] min-h-screen flex items-center justify-center p-4 text-white relative">
-      <Link to="/">
-        <FaArrowLeft className="text-xl cursor-pointer absolute left-5 top-7" />
-      </Link>
+        <FaArrowLeft onClick={handleBack}  className="text-xl cursor-pointer absolute left-5 top-7" />
       <div className="bg-[#FFFAFA]/60 p-4 sm:p-8 rounded-lg flex flex-col md:flex-row md:space-x-4 items-center md:items-start shadow-lg w-full max-w-md md:max-w-2xl">
         {edit ? (
           <div className="w-full md:flex-1 flex flex-col items-center md:items-start text-center md:text-left">
