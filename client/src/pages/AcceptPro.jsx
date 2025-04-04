@@ -56,7 +56,7 @@ const AdminInquiriesPage = () => {
               <div className="flex-1 flex flex-col sm:flex-row sm:justify-between gap-4 w-full">
                 {/* Left: Details */}
                 <div className="flex-1">
-                  <p className="text-xl font-bold">{inquiry.fullname}</p>
+                  <p className="text-xl font-bold">{inquiry.fullName}</p>
                   <p className="text-sm text-gray-300">{inquiry.profession}</p>
 
                   <div className="grid sm:grid-cols-2 gap-y-1 text-sm text-gray-200 mt-2">
