@@ -90,7 +90,7 @@ const professional = async (req, res) => {
 
 const professionalRegister = async (req, res) => {
     try {
-        const { userId, fullName, email, profession, experience, location, bio, servicesOffered, availability, phone ,category} = req.body;
+        const { userId, fullName, email, profession, experience, location, bio, servicesOffered, availability, phone ,category, profilePicture} = req.body;
 
         if (!userId || !fullName || !email || !profession || !experience || !location || !bio || !servicesOffered || !availability || !phone || !category) {
             return res.status(400).json({ message: "All fields are required" });
@@ -119,7 +119,8 @@ const professionalRegister = async (req, res) => {
             bio,
             servicesOffered: servicesArray,
             availability,
-            category
+            category,
+            profilePicture
         });
 
         console.log(register);
