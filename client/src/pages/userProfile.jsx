@@ -64,6 +64,34 @@ const ProfileCard = () => {
     navigate(-1)
   }
 
+  const handleImageUpload = async(file) => {
+    console.log("Selected File:", file); // Debugging log
+    if (file) {
+      await uploadToCloudinary(file);
+    }
+  }
+
+  const uploadToCloudinary = async (file) => {
+    console.log("Uploading file:", file);
+    // setUploading(true);
+  
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "profile_pictures"); // Your Cloudinary Upload Preset
+    formData.append("folder", "ProfilePictures"); // Specify the folder
+  
+    try {
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dkc1u2o0n/image/upload",
+        formData
+      );
+      console.log("Cloudinary Response:", res.data);
+      setEditData((prev) => ({ ...prev, picture: res.data.secure_url }));
+    } catch (err) {
+      console.error("Error uploading image:", err);
+    }
+  };
+
   return (
     <div className="bg-gradient-to-b from-[#121111] to-[#787878] min-h-screen flex items-center justify-center p-4 text-white relative">
         <FaArrowLeft onClick={handleBack}  className="text-xl cursor-pointer absolute left-5 top-7" />
@@ -73,7 +101,14 @@ const ProfileCard = () => {
             {/* Profile Editing Section */}
             <div className="flex flex-col items-center md:items-start mb-4">
               <label className="text-gray-300 font-semibold">Profile Picture</label>
-              <input type="file" accept="image/*" onChange={(e) => setPreviewImage(URL.createObjectURL(e.target.files[0]))} className="bg-gray-800 text-white border border-gray-600 p-2 rounded-md w-full cursor-pointer mt-2" />
+              <input type="file" 
+              accept="image/*" 
+              onChange={(e) => {const file = e.target.files[0];
+                if (file) {
+                  setPreviewImage(URL.createObjectURL(file));
+                  handleImageUpload(file);
+                }}}
+                className="bg-gray-800 text-white border border-gray-600 p-2 rounded-md w-full cursor-pointer mt-2" />
               {previewImage && <img src={previewImage} alt="Preview" className="mt-3 w-24 h-24 rounded-full border border-gray-500 object-cover" />}
             </div>
             <div className="mt-3 space-y-3 text-sm sm:text-base w-full">

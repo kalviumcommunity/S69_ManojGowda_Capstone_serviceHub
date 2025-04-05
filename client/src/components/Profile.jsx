@@ -1,12 +1,12 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
 
-const Profile = ({ fullName, rating, bio, image }) => {
+const Profile = ({ fullName, rating, bio, profilePicture }) => {
   return (
     <div className="flex flex-col sm:flex-row items-center p-4 sm:p-6 rounded-lg shadow-lg w-full mt-20">
       {/* Profile Image - Adjusts for Mobile & Desktop */}
       <img 
-        src={image} 
+        src={profilePicture} 
         alt={fullName} 
         className="w-24 h-24 sm:w-40 sm:h-40 rounded-full object-cover mb-4 sm:mb-0 sm:mr-6" 
       />
