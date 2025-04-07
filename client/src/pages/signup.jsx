@@ -17,7 +17,7 @@ function Signup() {
   const handleSubmit = async(e) => {
     e.preventDefault()
 
-    console.log(name,email,role,password)
+    // console.log(name,email,role,password)
     try{
        const res = await axios.post(
         "http://localhost:3010/api/auth/signup",{
@@ -28,7 +28,7 @@ function Signup() {
         }
        )
        console.log(res)
-       if(res.status === 200){
+       if(res.status === 201){
         navigate("/dashboard")
        }
     }catch(err){

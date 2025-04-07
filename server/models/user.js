@@ -10,6 +10,10 @@ const UserSchema = new mongoose.Schema({
   phone:Number,
   profession:String,
   role: { type: String, enum: ["client", "professional","admin"], required: true, default: "client" }, 
+  verifyOtp : {type : String, default:""},
+  verifyOtpExpireAt : {type : Number, default:0},
+  resetOtp : {type : String, default:""},
+  resetOtpExpireAt : {type : Number, default:0},
   createdAt: { type: Date, default: Date.now }
 });
 

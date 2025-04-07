@@ -2,7 +2,8 @@ const User = require("../models/user")
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken')
 const transporter = require('../config/nodemailer')
-const axios = require('axios')
+const axios = require('axios');
+const user = require("../models/user");
 
 require('dotenv').config()
 
@@ -200,4 +201,100 @@ const googleLogin = async (req, res) => {
     }
 };
 
-module.exports = {register,logIn,logout,googleLogin};
+const sendResetOtp = async(req, res) => {
+    try{
+      const {email} = req.body;
+
+      if(!email){
+        return res.status(400).json({message : "email is required!"})
+      }
+
+      const User = await user.findOne({email});
+      if(!User){
+        return res.status(404).json({message : "No user found"})
+      }
+
+      const otp = String(Math.floor(10000 + Math.random() * 900000));
+      User.resetOtp = otp;
+      User.resetOtpExpireAt = Date.now() + 15 * 50 * 1000
+
+      await User.save();
+
+      const mail = {
+        from: process.env.SMTP_USER,
+        to: email,
+        subject: "Reset Your Password - ServiceHub",
+        html: `
+          <div style="font-family: Arial, sans-serif; background-color: #111827; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto; color: #e5e7eb;">
+            <h2 style="color: #ffffff; text-align: center;">Reset Your Password</h2>
+      
+            <p>Hi ${User.name || 'there'},</p>
+      
+            <p>We received a request to reset your password for your <strong>ServiceHub</strong> account. Use the following OTP to reset your password:</p>
+      
+            <div style="text-align: center; margin: 20px 0;">
+              <p style="font-size: 24px; background-color: #1f2937; display: inline-block; padding: 10px 20px; border-radius: 8px; color: #ffffff;">
+                ${otp}
+              </p>
+            </div>
+      
+            <p><strong>This OTP is valid for 15 minutes.</strong> If you didn't request a password reset, you can safely ignore this email.</p>
+      
+            <p style="margin-top: 20px;">Thanks,<br><strong>The ServiceHub Team</strong></p>
+          </div>
+        `
+      };
+
+      try {
+        await transporter.sendMail(mail);
+    } catch (emailErr) {
+        console.error("Email not sent:", emailErr);
+        return res.status(500).json({ message: "User created, but email sending failed. Please contact support." });
+    }
+
+
+     res.status(200).json({message : "Otp sent successfull"}) 
+
+
+    }catch(err){
+        res.status(500).json({message : "Internal server Error"})
+    }
+}
+
+
+const resetPassword = async(req,res)=>{
+    const {email,otp,newpassword} = req.body;
+    if(!email||!otp||!newpassword){
+        return res.json({success:false,message:"Email, OTP and New Password are required."})
+    }
+    try {
+        const user = await User.findOne({email});
+        if(!user){
+            return res.json({success:false,message:"User not found!"});
+        }
+        const userId = user._id;
+        const otpEntry = await user.findOne({ user: userId });
+        // console.log(otp)
+
+        if(!otpEntry){
+            return res.json({success:false,message:"OTP missing"})
+        }
+        if(otpEntry.otp===""|| otpEntry.otp !== otp){
+            return res.json({success:false,message:"Invalid OTP"})
+        }
+        if(otpEntry.expiresAt<Date.now()){
+            return res.json({success:false,message:"OTP Expired"})
+        }
+        const hashedpassword = await bcrypt.hash(newpassword,10);
+        user.password = hashedpassword;
+        await user.save();
+        // await user.deleteOne({res});
+        return res.json({success:true,message:'Password has been reset Successfully.'})
+        
+    } catch (error) {
+        console.log(error.message)
+        res.json({success:false,message:"Internal Server Error"})
+    }
+}
+
+module.exports = {register,logIn,logout,googleLogin,sendResetOtp,resetPassword};
