@@ -54,6 +54,10 @@ function Login() {
           <p className="text-center text-black">
             Don't have an account? <a href="/signup" className="text-blue-600">Signup</a>
           </p>
+            <p className="text-center text-gray-700">
+              <a href="/forgot-password" className="hover:underline">Forgot password?</a>
+            </p>
+
           <button type="submit" className="w-full mb-0 bg-[#0574B9] text-white p-3 rounded-md font-semibold">
             Login
           </button>

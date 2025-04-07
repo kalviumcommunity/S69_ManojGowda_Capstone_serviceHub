@@ -15,6 +15,7 @@ import InquiryDisplay from './pages/inquiryDisplay'
 import AcceptPro from './pages/AcceptPro'
 import UserProfile from './pages/userProfile'
 import ListProfess from './pages/ListProfess'
+import ForgotPassword from './pages/forgotPass';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path='/inquiry' element={<InquiryForm/>}/>
           <Route path="/inquiryDisplay" element ={<InquiryDisplay/>}/>
           <Route path="/list" element={<ListProfess/>}/>
+          <Route path="/forgot-password" element={<ForgotPassword/>}/>
           <Route path="*" element={<NotFound />} />
 
           {/* Protected Admin Route */}
