@@ -3,6 +3,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import Profile from "../components/Profile";
 import { useLocation,useNavigate } from "react-router-dom";
 import axios from 'axios'
+import {RotateLoader} from "react-spinners"
 
 
 const ProfessionalsList = () => {
@@ -12,26 +13,35 @@ const ProfessionalsList = () => {
   const navigate = useNavigate()
 
   const [professionals, setProfessionals] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:3010/api/professionals/category?category=${encodeURIComponent(title)}`,
-          { withCredentials: true }
-        );
-        setProfessionals(res.data)
-        console.log(res.data);
-      } catch (error) {
-        console.error("Error fetching professionals:", error);
-      }
-    };
-
-    if (title) {
-      fetchData();
+    try {
+    const res = await axios.get(
+    `http://localhost:3010/api/professionals/category?category=${encodeURIComponent(title)}`,
+    { withCredentials: true }
+    );
+    setTimeout(() => {
+    setProfessionals(res.data);
+    setLoading(false);
+    console.log(res.data);
+    }, 1500);
+    console.log(res.data);
+    } catch (error) {
+    console.error("Error fetching professionals:", error);
     }
-  }, [title]);
+    };
+    if (title) {
+    fetchData();
+    }
+    }, [title]);
 
+    if (loading) {
+    return <div className=" min-h-screen bg-gradient-to-b from-[#121111] to-[#787878] text-center py-10 text-xl flex justify-center place-items-center text-white">
+    <RotateLoader color="white"/>
+    </div>;
+    }    
   const handleBack  = () => {
     navigate(-1)
   }
