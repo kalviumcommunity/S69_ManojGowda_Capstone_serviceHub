@@ -4,7 +4,7 @@ const userAuth = require('../middleware/userAuth.js')
 
 
 
-const {register,logIn, logout, googleLogin} = require('../Controllers/authentication.js')
+const {register,logIn, logout, googleLogin, sendResetOtp, resetPassword} = require('../Controllers/authentication.js')
 const user= require("../Controllers/user.js");
 const { Professionals,professional, professionalRegister, sendPro, approvePro } = require('../Controllers/professionals.js');
 const { showInquiry, postInquiry } = require('../Controllers/inquiry.js');
@@ -18,6 +18,8 @@ route.post("/auth/signup",register);
 route.post("/auth/login",logIn);
 route.post("/auth/logout",logout)
 route.post("/auth/google", googleLogin)
+route.post("/auth/resetOtp",sendResetOtp)
+route.post("/auth/reset-password",resetPassword)
 
 //USER ROUTES
 route.get("/user",userAuth,user);
