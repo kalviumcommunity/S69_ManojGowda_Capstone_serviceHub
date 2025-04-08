@@ -65,8 +65,11 @@ function NavBar() {
             <Link to="/login"><button className="font-[Junge] text-base sm:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg font-normal hover:text-gray-300 transition cursor-pointer">
               Login
             </button></Link>
-            <Link to="/register"><button className="font-[Junge] text-base sm:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg font-normal hover:text-gray-300 transition cursor-pointer">
-              Professional Register
+            <Link to="/faq"><button className="font-[Junge] text-base sm:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg font-normal hover:text-gray-300 transition cursor-pointer">
+              FAQ
+            </button></Link>
+            <Link to="/about"><button className="font-[Junge] text-base sm:text-lg px-3 py-2 md:px-4 md:py-2 rounded-lg font-normal hover:text-gray-300 transition cursor-pointer">
+              About Us
             </button></Link>
           </div>
         </div>

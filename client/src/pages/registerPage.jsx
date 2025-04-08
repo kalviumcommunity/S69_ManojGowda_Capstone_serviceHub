@@ -1,10 +1,11 @@
 import { React, useState, useEffect } from "react";
-import { FaHome } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import bgImg from "../assets/bg.jpeg";
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Register() {
+  const navigate = useNavigate()
   const [data, setData] = useState({
     fullName: "",
     email: "",
@@ -91,11 +92,11 @@ function Register() {
 
       {/* Home Button */}
       <div className="absolute top-4 left-4">
-        <Link to="/">
+
           <button className="text-white text-3xl">
-            <FaHome />
+            <FaArrowLeft onClick={() => navigate(-1)} className="text-xl cursor-pointer absolute left-4" />
           </button>
-        </Link>
+
       </div>
 
       {/* Form Container */}

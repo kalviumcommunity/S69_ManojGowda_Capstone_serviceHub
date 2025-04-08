@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaPencilAlt, FaArrowLeft } from "react-icons/fa";
 import { CiLocationOn } from "react-icons/ci";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ProfileCard = () => {
   const [user, setUser] = useState(null);
@@ -10,8 +10,7 @@ const ProfileCard = () => {
   const [editData, setEditData] = useState({ name: "", email: "", profession: "", phone: "", picture: "" });
   const [previewImage, setPreviewImage] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
-  const img_url = user ? user.picture : null
-  const navigate = useNavigate(); // Fix for navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -26,9 +25,7 @@ const ProfileCard = () => {
         console.error("Error fetching user:", error);
       }
     };
-
     fetchUser();
-    
   }, []);
 
   const handleEdit = () => setEdit(true);
@@ -61,31 +58,26 @@ const ProfileCard = () => {
   };
 
   const handleBack = () => {
-    navigate(-1)
-  }
+    navigate(-1);
+  };
 
-  const handleImageUpload = async(file) => {
-    console.log("Selected File:", file); // Debugging log
+  const handleImageUpload = async (file) => {
     if (file) {
       await uploadToCloudinary(file);
     }
-  }
+  };
 
   const uploadToCloudinary = async (file) => {
-    console.log("Uploading file:", file);
-    // setUploading(true);
-  
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "profile_pictures"); // Your Cloudinary Upload Preset
-    formData.append("folder", "ProfilePictures"); // Specify the folder
-  
+    formData.append("upload_preset", "profile_pictures");
+    formData.append("folder", "ProfilePictures");
+
     try {
       const res = await axios.post(
         "https://api.cloudinary.com/v1_1/dkc1u2o0n/image/upload",
         formData
       );
-      console.log("Cloudinary Response:", res.data);
       setEditData((prev) => ({ ...prev, picture: res.data.secure_url }));
     } catch (err) {
       console.error("Error uploading image:", err);
@@ -94,21 +86,24 @@ const ProfileCard = () => {
 
   return (
     <div className="bg-gradient-to-b from-[#121111] to-[#787878] min-h-screen flex items-center justify-center p-4 text-white relative">
-        <FaArrowLeft onClick={handleBack}  className="text-xl cursor-pointer absolute left-5 top-7" />
+      <FaArrowLeft onClick={handleBack} className="text-xl cursor-pointer absolute left-5 top-7" />
       <div className="bg-[#FFFAFA]/60 p-4 sm:p-8 rounded-lg flex flex-col md:flex-row md:space-x-4 items-center md:items-start shadow-lg w-full max-w-md md:max-w-2xl">
         {edit ? (
           <div className="w-full md:flex-1 flex flex-col items-center md:items-start text-center md:text-left">
-            {/* Profile Editing Section */}
             <div className="flex flex-col items-center md:items-start mb-4">
               <label className="text-gray-300 font-semibold">Profile Picture</label>
-              <input type="file" 
-              accept="image/*" 
-              onChange={(e) => {const file = e.target.files[0];
-                if (file) {
-                  setPreviewImage(URL.createObjectURL(file));
-                  handleImageUpload(file);
-                }}}
-                className="bg-gray-800 text-white border border-gray-600 p-2 rounded-md w-full cursor-pointer mt-2" />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  if (file) {
+                    setPreviewImage(URL.createObjectURL(file));
+                    handleImageUpload(file);
+                  }
+                }}
+                className="bg-gray-800 text-white border border-gray-600 p-2 rounded-md w-full cursor-pointer mt-2"
+              />
               {previewImage && <img src={previewImage} alt="Preview" className="mt-3 w-24 h-24 rounded-full border border-gray-500 object-cover" />}
             </div>
             <div className="mt-3 space-y-3 text-sm sm:text-base w-full">
@@ -135,10 +130,10 @@ const ProfileCard = () => {
             </div>
           </div>
         ) : (
-          <div className="w-full md:grid md:grid-cols-[1fr_2fr] flex flex-col items-center md:items-start text-center md:text-left">
+          <div className="w-full md:grid md:grid-cols-[1fr_2fr] flex flex-col items-center md:items-start text-start md:text-left">
             {user && (
-              <div className="flex">
-                <img src={img_url} alt="Profile" className="rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-44 md:h-44 object-cover border-4 border-gray-500" />
+              <div className="md:flex">
+                <img src={user?.picture} referrerPolicy="no-referrer" alt="Profile" className="rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-44 md:h-44 object-cover border-4 border-gray-500" />
               </div>
             )}
             <div className="mt-3 space-y-2 text-sm sm:text-base w-full">
@@ -146,8 +141,9 @@ const ProfileCard = () => {
                 <h2 className="text-lg sm:text-2xl font-bold">{user && user.name}</h2>
                 <FaPencilAlt onClick={handleEdit} className="block cursor-pointer hover:text-gray-900 transition text-lg ml-auto" />
               </div>
-              <p className="flex justify-center md:justify-start items-center text-sm sm:text-base mt-2">
-                <CiLocationOn className="text-lg mr-1" /> Mumbai
+              <p className="text-sm text-gray-200 italic"><span className="font-semibold text-[#0574B9]">Role: </span> {user?.role}</p>
+              <p className="flex  md:justify-start  text-sm sm:text-base mt-2">
+                <CiLocationOn className="text-lg mr-1" /> {user && user.location}
               </p>
               <p>
                 <span className="font-semibold text-[#0574B9]">Email: </span>
@@ -161,8 +157,15 @@ const ProfileCard = () => {
                 <span className="font-semibold text-[#0574B9]">Phone: </span>
                 {user && user.phone}
               </p>
-              <div className="flex flex-row gap-2 items-start mt-5">
-                <button className="bg-[#0574B9] text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition">Inquiry History</button>
+
+              {user?.role === "client" && (
+                <button onClick={() => navigate("/register")} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700  transition mt-4">
+                  Register as Professional
+                </button>
+              )}
+
+              <div className="md:flex md:flex-row  md:gap-2 mt-5">
+                <button className="bg-[#0574B9] text-white px-4 py-2 mr-4 rounded-lg hover:bg-blue-500 transition">Inquiry History</button>
                 <button className="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-800 transition" onClick={() => setShowConfirm(true)}>
                   Delete Account
                 </button>
@@ -172,7 +175,6 @@ const ProfileCard = () => {
         )}
       </div>
 
-      {/* Confirmation Modal */}
       {showConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg text-center shadow-lg">
