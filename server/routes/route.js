@@ -1,7 +1,7 @@
 const express = require('express')
 const route = express.Router();
 const userAuth = require('../middleware/userAuth.js')
-
+const sendContactIssue = require('../Controllers/contact.js');
 
 
 const {register,logIn, logout, googleLogin, sendResetOtp, resetPassword} = require('../Controllers/authentication.js')
@@ -26,6 +26,7 @@ route.get("/user",userAuth,user);
 route.put("/user-update",userAuth, profileUpdate)
 route.put("/update-pass",userAuth,updatePassword)
 route.delete("/delete",userAuth,deleteUser)
+route.post("/contact",sendContactIssue)
 
 
 //PROFESSIONALS ROUTES
