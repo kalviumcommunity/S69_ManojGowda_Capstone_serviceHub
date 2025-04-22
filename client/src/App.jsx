@@ -19,6 +19,7 @@ import ForgotPassword from './pages/forgotPass';
 import FAQPage from './pages/FAQpage';
 import AboutPage from './pages/about';
 import { ToastContainer } from 'react-toastify';
+import Contact from "./pages/contact"
 
 function App() {
   return (
