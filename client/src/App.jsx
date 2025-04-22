@@ -41,6 +41,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword/>}/>
           <Route path='/FAQ' element={<FAQPage/>}/>
           <Route path='/about' element={<AboutPage/>}/>
+          <Route path='/contact' element={<Contact/>}/>
           <Route path="*" element={<NotFound />} />
           
 
