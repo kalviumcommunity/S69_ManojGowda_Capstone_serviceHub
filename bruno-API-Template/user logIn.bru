@@ -4,15 +4,14 @@ meta {
   seq: 3
 }
 
-post {
-  url: http://localhost:3010/api/auth/login
+get {
+  url: https://s69-manojgowda-capstone-servicehub-check.onrender.com/api/user
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "email" : "venkateswarakonetisetty@gmail.com",
-    "password" : "Venky@1234"
+    
   }
 }

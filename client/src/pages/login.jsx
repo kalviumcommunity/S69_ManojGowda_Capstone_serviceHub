@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaHome } from "react-icons/fa";
 import {Link} from 'react-router-dom'
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Login() {
@@ -24,11 +25,16 @@ function Login() {
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
   
-      console.log("Success:", response.data);
+     
       if(response.status === 200){
+        toast.success(response.data.message);
+        console.log("Success:", response.data);
         navigate("/dashboard")
+      }else{
+        toast.error(response.data.message);
       }
     } catch (err) {
+      toast.error(err.response?.data?.message || 'Something went wrong. Try again!');
       console.error("Error:", err.response?.data || err.message);
     }
   };

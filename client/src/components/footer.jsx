@@ -1,8 +1,20 @@
-import React from "react";
+import React,{useState} from "react";
 import "../App.css";
 import logo from '../assets/logo.svg';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Footer() {
+
+  const [box,setBox] = useState("")
+
+  const handleClick = (e)=>{
+    e.preventDefault();
+    setBox("")
+    toast("We recieved your message")
+
+  }
+
   return (
     <footer className="bg-black text-white py-8 sm:py-12">
       {/* Main container */}
@@ -28,9 +40,11 @@ function Footer() {
             <input
               type="text"
               placeholder="Share your views..."
+              onChange={(e) => setBox(e.target.value)}
+              value={box}
               className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-700 text-white border border-gray-500 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
             />
-            <button
+            <button onClick={handleClick}
               className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-blue-500 text-white font-medium rounded-xl hover:bg-blue-600 transition duration-300 text-sm sm:text-base"
             >
               Submit

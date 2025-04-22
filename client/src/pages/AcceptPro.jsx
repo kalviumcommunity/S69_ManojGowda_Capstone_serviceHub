@@ -1,31 +1,48 @@
 import React, { useEffect, useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import axios from "axios";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AdminInquiriesPage = () => {
   const [professionals, setProfessionals] = useState(null);
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get("http://localhost:3010/api/recievePro", {
-        withCredentials: true,
-      });
-      setProfessionals(res.data);
+      try{
+        const res = await axios.get("http://localhost:3010/api/recievePro", {
+          withCredentials: true,
+        });
+        setProfessionals(res.data);
+        toast.info("Profiles fetched successfully")
+      }catch(err){
+        toast.info(err.response?.data?.message || "Something went wrong");
+      }
     };
     fetch();
   }, []);
 
   const handleAccept = async(id) => {
     console.log(id)
-    const res = await axios.patch(
-      "http://localhost:3010/api/approvePro",{
-        professionalId : id
-      },{
-        withCredentials: true
-      }
-    )
-    setProfessionals((prev) => prev.filter((pro) => pro._id !== id));
-    console.log(res.data);
+    try {
+      const res = await axios.patch(
+        "http://localhost:3010/api/approvePro",{
+          professionalId : id
+        },{
+          withCredentials: true
+        }
+      )
+        if(res.status == 200){
+          toast.success(res.data.message)
+        }else{
+          toast.error(res.data.message)
+        }
+      setProfessionals((prev) => prev.filter((pro) => pro._id !== id));
+      console.log(res.data);
+      
+    } catch (error) {
+      toast.error(err.res?.data?.message || 'Something went wrong. Try again!');
+    }
+
   }
   return (
     <div className="bg-gradient-to-b from-[#121111] to-[#787878] min-h-screen p-6 text-white">

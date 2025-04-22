@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ForgotAndResetPassword() {
   const [email, setEmail] = useState('');
@@ -22,10 +24,12 @@ function ForgotAndResetPassword() {
       if (res.status === 200) {
         setOtpSent(true);
         setMessage("OTP sent to your email");
+        toast.success("OTP sent to your email")
       }
     } catch (err) {
       console.error(err);
       setMessage("Failed to send OTP");
+      toast.error("Failed to send OTP")
     }
   };
 
@@ -43,11 +47,13 @@ function ForgotAndResetPassword() {
 
       if (res.status === 200) {
         setMessage("Password reset successfully!");
+        toast.success("Password reset successfully!")
         setTimeout(() => navigate("/login"), 2000);
       }
     } catch (err) {
       console.error(err);
       setMessage("OTP verification failed or request error.");
+      toast.error(err.res?.data?.message || 'Something went wrong. Try again!');
     }
   };
 

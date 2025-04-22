@@ -18,6 +18,7 @@ import ListProfess from './pages/ListProfess'
 import ForgotPassword from './pages/forgotPass';
 import FAQPage from './pages/FAQpage';
 import AboutPage from './pages/about';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
@@ -41,12 +42,14 @@ function App() {
           <Route path='/FAQ' element={<FAQPage/>}/>
           <Route path='/about' element={<AboutPage/>}/>
           <Route path="*" element={<NotFound />} />
+          
 
           {/* Protected Admin Route */}
           <Route element={<AdminRoute />}>
             <Route path="/verify" element={<AcceptPro />} />
           </Route>
         </Routes>
+        <ToastContainer position="top-right" autoClose={3000} />
       </Router>
     </AuthProvider>
 

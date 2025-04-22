@@ -3,7 +3,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import bgImg from "../assets/bg.jpeg";
 import {  useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Register() {
   const navigate = useNavigate()
   const [data, setData] = useState({
@@ -77,7 +78,13 @@ function Register() {
         withCredentials: true,
       });
       console.log("Response:", res.data);
+      if(res.status == 201){
+        toast.success(res.data.message)
+      }else{
+        toast.error(res.data.message)
+      }
     } catch (err) {
+      toast.error(err.res?.data?.message || 'Something went wrong. Try again!');
       console.error("Error:", err.response?.data || err.message);
     }
   };

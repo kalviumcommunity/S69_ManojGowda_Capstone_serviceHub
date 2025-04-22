@@ -6,6 +6,9 @@ import {jwtDecode} from 'jwt-decode'
 import {useNavigate} from 'react-router-dom'
 import { FaHome } from "react-icons/fa";
 import {Link} from 'react-router-dom'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function Signup() {
 
   const navigate = useNavigate()
@@ -29,9 +32,13 @@ function Signup() {
        )
        console.log(res)
        if(res.status === 201){
+        toast.success(res.data.message);
         navigate("/dashboard")
-       }
+       }else{
+         toast.error(response.data.message);
+        }
     }catch(err){
+      toast.error(err.res?.data?.message || 'Something went wrong. Try again!');
       console.log(err.message || err)
     }
 
