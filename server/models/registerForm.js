@@ -6,7 +6,7 @@ const professionalSchema = new mongoose.Schema({
     fullName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     phone: { type: String, required: true },
-    profession: { type: String, required: true }, 
+    profession: { type: String, required: true, default:"https://res.cloudinary.com/dkc1u2o0n/image/upload/v1745750841/ProfilePictures/t1tqhejd1cciqn6g0tiu.jpg" }, 
     experience: { type: Number, required: true }, 
     location: { type: String, required: true }, 
     bio: { type: String }, 

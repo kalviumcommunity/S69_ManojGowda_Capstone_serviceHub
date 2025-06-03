@@ -48,7 +48,7 @@ function Signup() {
           email,
           role,
           password
-        }
+        },{withCredentials: true}
        )
        console.log(res)
        if(res.status === 201){
@@ -58,7 +58,7 @@ function Signup() {
          toast.error(response.data.message);
         }
     }catch(err){
-      toast.error(err.res?.data?.message || 'Something went wrong. Try again!');
+      toast.error(err.res?.data?.message || `Something went wrong. Try again!${err}`);
       console.log(err.message || err)
     }
   }
@@ -76,31 +76,31 @@ function Signup() {
         <h2 className="text-3xl font-[Inknut-Antiqua] text-center text-black mb-6">Signup</h2>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <input type="text" placeholder="Name" onChange={(e) => setName(e.target.value)}
+            <input type="text" placeholder="Name" name="name" onChange={(e) => setName(e.target.value)}
               className="w-full p-3 rounded-md border border-gray-300 bg-white text-black" />
             {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
           </div>
 
           <div>
-            <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}
+            <input type="email" placeholder="Email" name="email" onChange={(e) => setEmail(e.target.value)}
               className="w-full p-3 rounded-md border border-gray-300 bg-white text-black" />
             {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
           </div>
 
-          <select value={role} onChange={(e) => setRole(e.target.value)}
+          <select value={role} name="role" onChange={(e) => setRole(e.target.value)}
             className="w-full p-3 rounded-md border border-gray-300 bg-white text-black">
             <option value="client">Client</option>
             <option value="professional">Professional</option>
           </select>
 
           <div>
-            <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password"
+            <input type="password" name="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password"
               className="w-full p-3 rounded-md border border-gray-300 bg-white text-black" />
             {errors.password && <p className="text-red-600 text-sm mt-1">{errors.password}</p>}
           </div>
 
           <div>
-            <input type="password" onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password"
+            <input type="password" name="confirmPassword" onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password"
               className="w-full p-3 rounded-md border border-gray-300 bg-white text-black" />
             {errors.confirmPassword && <p className="text-red-600 text-sm mt-1">{errors.confirmPassword}</p>}
           </div>

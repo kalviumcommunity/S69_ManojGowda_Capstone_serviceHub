@@ -28,7 +28,7 @@ const register =  async (req, res) => {
             role
         });
 
-        const token = jwt.sign({id : user._id}, process.env.JWT_SECRET, {expiresIn : process.env.JWT_EXP || '1h'});
+        const token = jwt.sign({id : user._id}, process.env.JWT_SECRET, {expiresIn : '1h'});
 
         res.cookie('token', token, {
             httpOnly : true,
@@ -76,14 +76,14 @@ const register =  async (req, res) => {
             `
         };
 
-        try {
-            await transporter.sendMail(mail);
-        } catch (emailErr) {
-            console.error("Email not sent:", emailErr);
-            return res.status(500).json({ message: "User created, but email sending failed. Please contact support." });
-        }
+        // try {
+        //     await transporter.sendMail(mail);
+        // } catch (emailErr) {
+        //     console.error("Email not sent:", emailErr);
+        //     return res.status(500).json({ message: "User created, but email sending failed. Please contact support." });
+        // }
+        await transporter.sendMail(mail);
         
-
         console.log(user);
         res.status(201).json({ message: "User signed up successfully" });
     } catch (err) {

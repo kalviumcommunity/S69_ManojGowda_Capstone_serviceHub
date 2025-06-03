@@ -18,16 +18,16 @@ const ProfessionalsList = () => {
   useEffect(() => {
     const fetchData = async () => {
     try {
-    const res = await axios.get(
-    `http://localhost:3010/api/professionals/category?category=${encodeURIComponent(title)}`,
-    { withCredentials: true }
-    );
-    setTimeout(() => {
-    setProfessionals(res.data);
-    setLoading(false);
-    console.log(res.data);
-    }, 1500);
-    console.log(res.data);
+      const res = await axios.get(
+        `http://localhost:3010/api/professionals/category?category=${encodeURIComponent(title)}`,
+        { withCredentials: true }
+        );
+        setTimeout(() => {
+        setProfessionals(res.data);
+        setLoading(false);
+        console.log(res.data);
+      }, 1500);
+      console.log(res.data);
     } catch (error) {
     console.error("Error fetching professionals:", error);
     }

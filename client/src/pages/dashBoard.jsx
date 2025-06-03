@@ -2,7 +2,6 @@ import {React, useEffect,useState} from 'react';
 import ServiceSection from '../components/serviceSection';
 import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
 import { FaHome } from "react-icons/fa";
-import pro2 from '../assets/pro2.webp'
 // Placeholder images (replace with actual image paths)
 import lawImage from '../assets/law.jpg';
 import accountingImage from '../assets/accounting.webp';
@@ -11,9 +10,9 @@ import caImage from '../assets/chartered-accountant-services.jpg';
 import tradeImage from '../assets/service_professionalsinc_cover.jpeg';
 import axios from 'axios'
 
-
 const App = () => {
    const [user,setUser] = useState()
+   const [pro,setPro] = useState(false)
    useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -22,6 +21,14 @@ const App = () => {
         });
         console.log(res.data);
         setUser(res.data); // Store user data in state
+        if (res.data.role === "professional") {
+          const proRes = await axios.get(`http://localhost:3010/api/professional`, {
+            withCredentials: true,
+          });
+          console.log(proRes.data)
+          setPro(true)
+          setUser(proRes.data);
+        }
       } catch (error) {
         console.error("Error fetching user:", error);
       }
@@ -76,7 +83,7 @@ const App = () => {
       <header className="flex justify-between items-center p-4">
         <Link to="/"><FaHome className='text-2xl ml-7'/></Link>
         <h1 className="text-3xl font text-center flex-1">Your One-Stop Hub for Professional Services</h1>
-        <Link to="/profile"><div className="w-10 h-10 bg-gray-600 rounded-full">{user && <img src={user.picture} className='w-10 h-10 rounded-full'/>}</div></Link> {/* Placeholder for profile icon */}
+        <Link to={pro ? "/pro" : "/profile"}><div className="w-10 h-10 bg-gray-600 rounded-full">{user && <img src={pro ? user.profilePicture : user.picture} className='w-10 h-10 rounded-full'/>}</div></Link> {/* Placeholder for profile icon */}
       </header>
 
       {/* Main Content */}

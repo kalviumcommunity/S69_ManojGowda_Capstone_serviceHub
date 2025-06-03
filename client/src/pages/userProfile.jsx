@@ -157,6 +157,11 @@ const ProfileCard = () => {
                 <span className="font-semibold text-[#0574B9]">Phone: </span>
                 {user && user.phone}
               </p>
+              {user?.role === "admin" && (
+                <button onClick={() => navigate("/verify")} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700  transition mt-4">
+                  Verify Professionals
+                </button>
+              )}
 
               {user?.role === "client" && (
                 <button onClick={() => navigate("/register")} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700  transition mt-4">

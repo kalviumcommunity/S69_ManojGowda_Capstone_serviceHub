@@ -69,8 +69,8 @@ function Register() {
     e.preventDefault();
 
     if (!data.profilePicture) {
-      alert("Please wait for the image to finish uploading.");
-      return;
+      alert("Please wait until photo get uploaded");
+      return
     }
 
     try {
@@ -80,6 +80,7 @@ function Register() {
       console.log("Response:", res.data);
       if(res.status == 201){
         toast.success(res.data.message)
+        navigate("/dashboard")
       }else{
         toast.error(res.data.message)
       }
@@ -115,6 +116,7 @@ function Register() {
           {/* Personal Details */}
           <input
             type="text"
+            name="fullName"
             onChange={(e) => setData((prev) => ({ ...prev, fullName: e.target.value }))}
             placeholder="Name"
             className="p-3 rounded-md border border-gray-300 bg-white text-black col-span-1"
@@ -123,18 +125,21 @@ function Register() {
             type="email"
             onChange={(e) => setData((prev) => ({ ...prev, email: e.target.value }))}
             placeholder="Email"
+            name = "email"
             className="p-3 rounded-md border border-gray-300 bg-white text-black col-span-1"
           />
           <input
             type="text"
             onChange={(e) => setData((prev) => ({ ...prev, location: e.target.value }))}
             placeholder="Location"
+            name = "location"
             className="p-3 rounded-md border border-gray-300 bg-white text-black col-span-1"
           />
           <input
             type="text"
             onChange={(e) => setData((prev) => ({ ...prev, phone: e.target.value }))}
             placeholder="Phone"
+            name="phone"
             className="p-3 rounded-md border border-gray-300 bg-white text-black col-span-1"
           />
 
@@ -144,6 +149,7 @@ function Register() {
               type="file"
               id="fileUpload"
               className="hidden"
+              name = "profilePicture"
               onChange={handleFileChange}
             />
             <label
@@ -163,6 +169,7 @@ function Register() {
 
           <textarea
             placeholder="Bio"
+            name="bio"
             onChange={(e) => setData((prev) => ({ ...prev, bio: e.target.value }))}
             className="p-3 rounded-md border border-gray-300 bg-white text-black col-span-1 h-20"
           ></textarea>
@@ -172,18 +179,21 @@ function Register() {
             type="text"
             onChange={(e) => setData((prev) => ({ ...prev, profession: e.target.value }))}
             placeholder="Profession"
+            name="profession"
             className="p-3 rounded-md border border-gray-300 bg-white text-black col-span-1"
           />
           <input
             type="text"
             onChange={(e) => setData((prev) => ({ ...prev, experience: e.target.value }))}
             placeholder="Experience"
+            name="experience"
             className="p-3 rounded-md border border-gray-300 bg-white text-black col-span-1"
           />
           <input
             type="text"
             onChange={(e) => setData((prev) => ({ ...prev, availability: e.target.value }))}
             placeholder="Availability"
+            name="availability"
             className="p-3 rounded-md border border-gray-300 bg-white text-black col-span-1"
           />
 
@@ -192,11 +202,13 @@ function Register() {
             <textarea
               onChange={(e) => setData((prev) => ({ ...prev, servicesOffered: e.target.value }))}
               placeholder="Services Offered"
+              name="servicesOffered"
               className="p-3 rounded-md border border-gray-300 bg-white text-black col-span-2 h-24"
             ></textarea>
             <select
               value={data.category}
               onChange={(e) => setData((prev) => ({ ...prev, category: e.target.value }))}
+              name="category"
               className="p-2 text-center rounded-md border border-gray-300 bg-white text-black h-10 text-sm"
             >
               <option value="">Select a Category</option>

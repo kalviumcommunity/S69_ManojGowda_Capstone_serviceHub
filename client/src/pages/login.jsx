@@ -55,8 +55,8 @@ function Login() {
       <div className="relative bg-white/50 backdrop-blur-md p-8 rounded-xl shadow-lg w-96">
         <h2 className="text-3xl font-[Inknut-Antiqua] text-center text-black mb-6">Login</h2>
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} className="w-full p-3 rounded-md border border-gray-300 bg-white text-black" />
-          <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} className="w-full p-3 rounded-md border border-gray-300 bg-white text-black" />
+          <input type="email" placeholder="Email" name="email" onChange={(e) => setEmail(e.target.value)} className="w-full p-3 rounded-md border border-gray-300 bg-white text-black" />
+          <input type="password" placeholder="Password" name="password" onChange={(e) => setPassword(e.target.value)} className="w-full p-3 rounded-md border border-gray-300 bg-white text-black" />
           <p className="text-center text-black">
             Don't have an account? <a href="/signup" className="text-blue-600">Signup</a>
           </p>

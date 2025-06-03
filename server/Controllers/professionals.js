@@ -9,7 +9,7 @@ const Professionals = async (req, res) => {
             return res.status(400).json({ message: "Category is required" });
         }
 
-        const professionals = await Professional.find({ category, isApproved: true }).select("fullName bio profilePicture");
+        const professionals = await Professional.find({ category, isApproved: true }).select("fullName bio profilePicture userId");
 
         if (professionals.length === 0) {
             return res.status(404).json({ message: `No users found for category: ${category}` });
@@ -76,11 +76,30 @@ const approvePro = async (req, res) => {
 const professional = async (req, res) => {
     try {
         const professional = await Professional.findOne({ 
-            userId: req.body.userId});
+            userId: req.body.userId}).select("fullName bio location profession servicesOffered phone experience availability profilePicture");
 
         if (!professional) {
             return res.status(404).json({ message: `No professional found with this ${req.body.userId}` });
         }
+        console.log(professional)
+        res.status(200).json(professional);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+};
+
+const pro = async (req, res) => {
+    try {
+        const id = req.query.id;
+        console.log(id)
+        const professional = await Professional.findOne({ 
+            _id: id});
+
+        if (!professional) {
+            return res.status(404).json({ message: `No professional found with this ${id}` });
+        }
+        console.log(professional)
         res.status(200).json(professional);
     } catch (err) {
         console.error(err);
@@ -131,4 +150,4 @@ const professionalRegister = async (req, res) => {
     }
 };
 
-module.exports = { professionalRegister, professional, Professionals ,sendPro, approvePro};
+module.exports = { professionalRegister, professional, Professionals ,sendPro, approvePro, pro};

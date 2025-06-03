@@ -6,7 +6,7 @@ const sendContactIssue = require('../Controllers/contact.js');
 
 const {register,logIn, logout, googleLogin, sendResetOtp, resetPassword} = require('../Controllers/authentication.js')
 const user= require("../Controllers/user.js");
-const { Professionals,professional, professionalRegister, sendPro, approvePro } = require('../Controllers/professionals.js');
+const { Professionals,professional, professionalRegister, sendPro, approvePro, pro } = require('../Controllers/professionals.js');
 const { showInquiry, postInquiry } = require('../Controllers/inquiry.js');
 const { reviews, postReview } = require('../Controllers/review.js');
 const transaction = require("../Controllers/transaction.js");   
@@ -36,6 +36,7 @@ route.get("/recievePro",userAuth,sendPro)
 route.post("/register",userAuth,professionalRegister);
 route.put("/update-pro",userAuth,professionalUpd)
 route.patch("/approvePro",userAuth,approvePro)
+route.get("/professional/pro",userAuth,pro)
 
 //INQUIRY ROUTES
 route.get("/inquiry",userAuth,showInquiry);

@@ -27,8 +27,7 @@ const showInquiry = async (req, res) => {//issuse
 const postInquiry = async (req, res) => {
     try {
         const { userId, professionalId, serviceRequested, message } = req.body;
-
-        
+ 
         if (!userId || !professionalId || !message || !serviceRequested) {
             return res.status(400).json({ message: "All fields are required!" });
         }

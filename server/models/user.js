@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  picture: String,
+  picture: {type : String, default:"https://res.cloudinary.com/dkc1u2o0n/image/upload/v1745750841/ProfilePictures/t1tqhejd1cciqn6g0tiu.jpg"},
   location:String,
   phone:Number,
   profession:String,

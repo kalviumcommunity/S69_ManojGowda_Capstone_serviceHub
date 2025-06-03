@@ -1,9 +1,15 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const Profile = ({ fullName, rating, bio, profilePicture }) => {
+const Profile = ({ fullName, rating, bio, profilePicture, _id }) => {
+  const navigate = useNavigate()
+  const handleClick = () => {
+    navigate(`/proProfile?id=${_id}`)
+  }
+
   return (
-    <div className="flex flex-col sm:flex-row items-center p-4 sm:p-6 rounded-lg shadow-lg w-full mt-20">
+    <div className="bg-gray-500 flex flex-col sm:flex-row items-center p-4 sm:p-6 rounded-lg shadow-lg w-full mt-20">
       {/* Profile Image - Adjusts for Mobile & Desktop */}
       <img 
         src={profilePicture} 
@@ -26,7 +32,7 @@ const Profile = ({ fullName, rating, bio, profilePicture }) => {
         <p className="text-gray-300 text-sm sm:text-base">{bio}</p>
 
         {/* View Button */}
-        <button className="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full sm:w-auto">
+        <button onClick={handleClick} className="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded w-full sm:w-auto">
           View
         </button>
       </div>
