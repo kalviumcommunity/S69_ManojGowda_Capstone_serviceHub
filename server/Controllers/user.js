@@ -4,7 +4,6 @@ const user = async (req, res) => {
     try {
 
         const user = await User.findById(req.body.userId).select("name role email picture location phone profession");
-        console.log(req.body.userId,user.role,user.picture);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }

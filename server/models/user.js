@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
+require("dotenv").config({path: './config/.env'})
 
 const UserSchema = new mongoose.Schema({
   googleId: { type: String, unique: true },
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  picture: {type : String, default:"https://res.cloudinary.com/dkc1u2o0n/image/upload/v1745750841/ProfilePictures/t1tqhejd1cciqn6g0tiu.jpg"},
+  picture: {type : String, default: process.env.DEFAULT_PROFILE},
   location:String,
   phone:Number,
   profession:String,

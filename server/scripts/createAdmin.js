@@ -11,17 +11,17 @@ const createAdmin = async () => {
       useUnifiedTopology: true 
     });
 
-    const existingAdmin = await User.findOne({ email: "manojgowdan807@gmail.com" });
+    const existingAdmin = await User.findOne({ email: process.env.ADMIN_EMAIL });
     if (existingAdmin) {
       console.log("Admin already exists");
       return;
     }
 
-    const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASS, 10);
+    const hashedPassword =  bcrypt.hash(process.env.ADMIN_PASS, 10);
     
     const admin = new User({
       name: "Manoj Gowda",
-      email: "manojgowdan807@gmail.com",
+      email: process.env.ADMIN_EMAIL,
       password: hashedPassword,
       role: "admin"
     });

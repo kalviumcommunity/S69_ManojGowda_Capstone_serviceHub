@@ -21,7 +21,7 @@ const Professionals = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
-
+ 
 const sendPro = async (req, res) => {
     try {
         const {userId} = req.body
@@ -76,15 +76,15 @@ const approvePro = async (req, res) => {
 const professional = async (req, res) => {
     try {
         const professional = await Professional.findOne({ 
-            userId: req.body.userId}).select("fullName bio location profession servicesOffered phone experience availability profilePicture");
+            userId: req.body.userId}).select("fullName email bio location profession servicesOffered phone experience availability profilePicture");
 
         if (!professional) {
             return res.status(404).json({ message: `No professional found with this ${req.body.userId}` });
         }
-        console.log(professional)
+
         res.status(200).json(professional);
     } catch (err) {
-        console.error(err);
+
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
@@ -92,14 +92,12 @@ const professional = async (req, res) => {
 const pro = async (req, res) => {
     try {
         const id = req.query.id;
-        console.log(id)
         const professional = await Professional.findOne({ 
             _id: id});
 
         if (!professional) {
             return res.status(404).json({ message: `No professional found with this ${id}` });
         }
-        console.log(professional)
         res.status(200).json(professional);
     } catch (err) {
         console.error(err);
@@ -142,10 +140,8 @@ const professionalRegister = async (req, res) => {
             profilePicture
         });
 
-        console.log(register);
         res.status(201).json({ message: "Professional registration successful!" });
     } catch (err) {
-        console.error(err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 };

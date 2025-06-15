@@ -76,15 +76,8 @@ const register =  async (req, res) => {
             `
         };
 
-        // try {
-        //     await transporter.sendMail(mail);
-        // } catch (emailErr) {
-        //     console.error("Email not sent:", emailErr);
-        //     return res.status(500).json({ message: "User created, but email sending failed. Please contact support." });
-        // }
         await transporter.sendMail(mail);
         
-        console.log(user);
         res.status(201).json({ message: "User signed up successfully" });
     } catch (err) {
         console.error(err);
@@ -180,7 +173,7 @@ const googleLogin = async (req, res) => {
 
         
         const jwtToken = jwt.sign(
-            { id: user._id, name: user.name, email: user.email, picture: user.picture, role: user.role },
+            { id: user._id},
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
@@ -252,7 +245,6 @@ const sendResetOtp = async(req, res) => {
         return res.status(500).json({ message: "User created, but email sending failed. Please contact support." });
     }
 
-
      res.status(200).json({message : "Otp sent successfull"}) 
 
 
@@ -262,39 +254,47 @@ const sendResetOtp = async(req, res) => {
 }
 
 
-const resetPassword = async(req,res)=>{
-    const {email,otp,newpassword} = req.body;
-    if(!email||!otp||!newpassword){
-        return res.json({success:false,message:"Email, OTP and New Password are required."})
-    }
-    try {
-        const user = await User.findOne({email});
-        if(!user){
-            return res.json({success:false,message:"User not found!"});
-        }
-        const userId = user._id;
-        const otpEntry = await user.findOne({ user: userId });
-        // console.log(otp)
+const resetPassword = async (req, res) => {
+    const { email, otp, newPassword } = req.body;
 
-        if(!otpEntry){
-            return res.json({success:false,message:"OTP missing"})
-        }
-        if(otpEntry.otp===""|| otpEntry.otp !== otp){
-            return res.json({success:false,message:"Invalid OTP"})
-        }
-        if(otpEntry.expiresAt<Date.now()){
-            return res.json({success:false,message:"OTP Expired"})
-        }
-        const hashedpassword = await bcrypt.hash(newpassword,10);
-        user.password = hashedpassword;
-        await user.save();
-        // await user.deleteOne({res});
-        return res.json({success:true,message:'Password has been reset Successfully.'})
-        
-    } catch (error) {
-        console.log(error.message)
-        res.json({success:false,message:"Internal Server Error"})
+    if (!email || !otp || !newPassword) {
+        return res.status(400).json({ success: false, message: "Email, OTP and New Password are required." });
     }
-}
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.json({ success: false, message: "User not found!" });
+        }
+
+        const otpEntry = user.resetOtp;
+
+        if (!otpEntry) {
+            return res.json({ success: false, message: "OTP missing" });
+        }
+
+        if (otpEntry === "" || otpEntry !== otp) {
+            return res.json({ success: false, message: "Invalid OTP" });
+        }
+
+        if (user.expiresAt < Date.now()) {
+            return res.json({ success: false, message: "OTP Expired" });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+
+        // Clear used OTP
+        user.resetOtp = "";
+        user.resetOtpExpireAt = "";
+
+        await user.save();
+
+        return res.json({ success: true, message: 'Password has been reset successfully.' });
+
+    } catch (error) {
+        res.json({ success: false, message: "Internal Server Error" });
+    }
+};
 
 module.exports = {register,logIn,logout,googleLogin,sendResetOtp,resetPassword};

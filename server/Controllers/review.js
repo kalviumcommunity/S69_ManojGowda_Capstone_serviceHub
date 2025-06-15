@@ -45,7 +45,6 @@ const postReview = async (req, res) => {
             professionalId
         });
 
-        console.log(feedback);
         res.status(201).json({ message: "Review added successfully", feedback });
     } catch (err) {
         console.error(err);

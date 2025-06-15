@@ -7,7 +7,7 @@ const sendContactIssue = require('../Controllers/contact.js');
 const {register,logIn, logout, googleLogin, sendResetOtp, resetPassword} = require('../Controllers/authentication.js')
 const user= require("../Controllers/user.js");
 const { Professionals,professional, professionalRegister, sendPro, approvePro, pro } = require('../Controllers/professionals.js');
-const { showInquiry, postInquiry } = require('../Controllers/inquiry.js');
+const { showInquiry, postInquiry, updateInquiryStatus } = require('../Controllers/inquiry.js');
 const { reviews, postReview } = require('../Controllers/review.js');
 const transaction = require("../Controllers/transaction.js");   
 const { profileUpdate, professionalUpd, updatePassword } = require('../Controllers/update.js');
@@ -39,8 +39,9 @@ route.patch("/approvePro",userAuth,approvePro)
 route.get("/professional/pro",userAuth,pro)
 
 //INQUIRY ROUTES
-route.get("/inquiry",userAuth,showInquiry);
+route.get("/showInquiry",userAuth,showInquiry);
 route.post("/inquiry",userAuth,postInquiry);
+route.put('/updateInquiryStatus/:inquiryId',updateInquiryStatus)
 
 //REVIEW ROUTES
 route.get("/reviews",userAuth,reviews);
