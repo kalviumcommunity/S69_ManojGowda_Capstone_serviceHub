@@ -1,45 +1,46 @@
-import {React, useEffect,useState} from 'react';
+import { React, useEffect, useState } from 'react';
 import ServiceSection from '../components/serviceSection';
-import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
+import { Link, useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
-// Placeholder images (replace with actual image paths)
 import lawImage from '../assets/law.jpg';
 import accountingImage from '../assets/accounting.webp';
 import digitalMarketingImage from '../assets/digital-marketing.jpg';
 import caImage from '../assets/chartered-accountant-services.jpg';
 import tradeImage from '../assets/service_professionalsinc_cover.jpeg';
-import axios from 'axios'
+import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const App = () => {
-   const [user,setUser] = useState()
-   const [pro,setPro] = useState(false)
-   useEffect(() => {
+  const [user, setUser] = useState();
+  const [pro, setPro] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:3010/api/user", {
+        const res = await axios.get(`${API_URL}/user`, {
           withCredentials: true
         });
-        console.log(res.data);
-        setUser(res.data); // Store user data in state
+        setUser(res.data);
         if (res.data.role === "professional") {
-          const proRes = await axios.get(`http://localhost:3010/api/professional`, {
+          const proRes = await axios.get(`${API_URL}/professional`, {
             withCredentials: true,
           });
-          console.log(proRes.data)
-          setPro(true)
+          setPro(true);
           setUser(proRes.data);
         }
       } catch (error) {
         console.error("Error fetching user:", error);
+        if(error.status === 401){
+          navigate("/login")
+        }
       }
     };
-  
+
     fetchUser();
   }, []);
 
-
-
-  const services = [
+const services = [
     {
       title: 'Legal Services',
       description: 'Law is the foundation of a just and orderly society, ensuring fairness, accountability, and the protection of individual rights. Whether navigating corporate regulations, settling disputes, or seeking justice, expert legal guidance is essential. Our platform connects you with experienced lawyers specializing in various fields, from corporate law and intellectual property to criminal defense and estate planning. Get the right legal support tailored to your needs and make informed decisions with confidence.',
@@ -77,17 +78,38 @@ const App = () => {
     },
   ];
 
+  const handleLogout = async () => {
+    await axios.post(`${API_URL}/auth/logout`, {}, 
+      { withCredentials: true });
+    navigate("/");
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#121111] to-[#787878] text-white">
+    <div className="min-h-screen bg-white text-black overflow-x-hidden">
       {/* Header */}
-      <header className="flex justify-between items-center p-4">
-        <Link to="/"><FaHome className='text-2xl ml-7'/></Link>
-        <h1 className="text-3xl font text-center flex-1">Your One-Stop Hub for Professional Services</h1>
-        <Link to={pro ? "/pro" : "/profile"}><div className="w-10 h-10 bg-gray-600 rounded-full">{user && <img src={pro ? user.profilePicture : user.picture} className='w-10 h-10 rounded-full'/>}</div></Link> {/* Placeholder for profile icon */}
+      <header className="bg-[#106BA3] text-white py-4 shadow-md">
+        <div className="flex items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+          {/* Home */}
+          <Link to="/" className="text-2xl">
+            <FaHome />
+          </Link>
+
+          {/* Title */}
+          <h1 className="text-base sm:text-md md:text-3xl font-semibold font-[judson] text-center flex-1 mx-4 truncate">
+            Your One-Stop Hub for Professional Services
+          </h1>
+
+          {/* Profile */}
+          <Link to={pro ? "/pro" : "/profile"} className="w-15 h-15 rounded-full overflow-hidden border-2 border-white flex-shrink-0">
+            {user && (
+              <img src={pro ? user.profilePicture : user.picture} alt="profile" className="w-full h-full object-cover" />
+            )}
+          </Link>
+        </div>
       </header>
 
       {/* Main Content */}
-      <main className="p-6">
+      <main className="p-4 md:p-8 grid gap-12 max-w-7xl mx-auto">
         {services.map((service, index) => (
           <ServiceSection
             key={index}
@@ -100,9 +122,15 @@ const App = () => {
         ))}
       </main>
 
+      {/* Footer */}
+      <footer className="bg-[#106BA3] text-white py-2 px-4 md:px-6 flex justify-between items-center text-sm">
+        <span>© 2025 ServiceHub</span>
+        <button onClick={handleLogout} className="bg-transparent border border-white px-4 py-1 rounded">
+          Logout
+        </button>
+      </footer>
     </div>
   );
 };
 
 export default App;
-

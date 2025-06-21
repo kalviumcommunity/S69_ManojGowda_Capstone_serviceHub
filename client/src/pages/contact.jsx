@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Contact() {
   const [name, setName] = useState("");
@@ -12,7 +13,7 @@ export default function Contact() {
     setStatus("Sending...");
 
     try {
-      const res = await axios.post("http://localhost:3010/api/contact", {
+      const res = await axios.post(`${API_URL}/contact`, {
         name,
         email,
         message,

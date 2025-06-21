@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const AuthContext = createContext();
 
@@ -9,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get("http://localhost:3010/api/user", { withCredentials: true });
+        const res = await axios.get(`${API_URL}/user`, { withCredentials: true });
         setUser(res.data); // Store user data
       } catch (err) {
         console.error("User fetch error:", err);

@@ -14,7 +14,7 @@ function NotFound() {
 
         {/* Home Button */}
         <button 
-          onClick={() => navigate("/")} 
+          onClick={() => navigate("/dashboard")} 
           className="mt-6 bg-[#0574B9] text-white p-3 rounded-md font-semibold hover:bg-[#035a8b] transition duration-300"
         >
           Go Home

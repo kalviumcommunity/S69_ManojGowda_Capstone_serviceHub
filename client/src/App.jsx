@@ -21,11 +21,11 @@ import AboutPage from './pages/about';
 import { ToastContainer } from 'react-toastify';
 import Contact from "./pages/contact"
 
+
 function App() {
   return (
-
-<AuthProvider>
-      <Router>
+    <Router>
+      <AuthProvider>
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
@@ -52,9 +52,9 @@ function App() {
           </Route>
         </Routes>
         <ToastContainer position="top-right" autoClose={3000} />
-      </Router>
-    </AuthProvider>
 
+     </AuthProvider>
+  </Router>
   );
 }
 

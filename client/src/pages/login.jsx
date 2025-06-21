@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import bgImg from '../assets/bg.jpeg';
 import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaHome } from "react-icons/fa";
 import {Link} from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Login() {
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ function Login() {
     
     try {
       const response = await axios.post(
-        "http://localhost:3010/api/auth/login",
+        `${API_URL}/auth/login`,
         { email, password },  
         { headers: { "Content-Type": "application/json" }, withCredentials: true }
       );
@@ -28,7 +27,6 @@ function Login() {
      
       if(response.status === 200){
         toast.success(response.data.message);
-        console.log("Success:", response.data);
         navigate("/dashboard")
       }else{
         toast.error(response.data.message);
@@ -79,16 +77,10 @@ function Login() {
             <GoogleLogin  
               onSuccess={async (credentialResponse) => {
                 try {
-                  console.log("Google Credential:", credentialResponse);
-                  const decoded = jwtDecode(credentialResponse.credential);
-                  console.log("Decoded User Info:", decoded);
-
-                  // Send token to backend
-                  const res = await axios.post("http://localhost:3010/api/auth/google", {
+                  await axios.post(`${API_URL}/auth/google`, {
                     token: credentialResponse.credential
                   }, { withCredentials: true });
 
-                  console.log("Server Response:", res.data);
                   navigate("/dashboard");
 
                 } catch (error) {
@@ -96,7 +88,6 @@ function Login() {
                   alert("Login failed");
                 }
               }}
-              onError={() => console.log('Login Failed')}
               size="large" 
               ux_mode="popup"
               theme="outline"

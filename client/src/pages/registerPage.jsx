@@ -5,6 +5,9 @@ import {  useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const API_URL = import.meta.env.VITE_API_URL;
+const CLOUDINARY_API = import.meta.env.VITE_CLOUDINARY_API;
+
 function Register() {
   const navigate = useNavigate()
   const [data, setData] = useState({
@@ -27,37 +30,30 @@ function Register() {
   // Handle file selection & auto-upload
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0];
-    console.log("Selected File:", selectedFile); // Debugging log
     setFile(selectedFile);
     if (selectedFile) {
       await uploadToCloudinary(selectedFile);
     }
   };
-
-    useEffect(() => {
-      console.log("Updated picture URL:", data.profilePicture);
-    }, [data.profilePicture]);
       
 
   // Upload Image to Cloudinary
   const uploadToCloudinary = async (file) => {
-    console.log("Uploading file:", file);
     setUploading(true);
   
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "profile_pictures"); // Your Cloudinary Upload Preset
+    formData.append("upload_preset", "profile_pictures"); //Cloudinary Upload Preset
     formData.append("folder", "ProfilePictures"); // Specify the folder
   
     try {
       const res = await axios.post(
-        "https://api.cloudinary.com/v1_1/dkc1u2o0n/image/upload",
+        `${CLOUDINARY_API}`,
         formData
       );
-      console.log("Cloudinary Response:", res.data);
       setData((prev) => ({ ...prev, profilePicture: res.data.secure_url }));
     } catch (err) {
-      console.error("Error uploading image:", err);
+       toast.error(err.message)
     } finally {
       setUploading(false);
     }
@@ -74,10 +70,9 @@ function Register() {
     }
 
     try {
-      const res = await axios.post("http://localhost:3010/api/register", data, {
+      const res = await axios.post(`${API_URL}/register`, data, {
         withCredentials: true,
       });
-      console.log("Response:", res.data);
       if(res.status == 201){
         toast.success(res.data.message)
         navigate("/dashboard")
@@ -225,6 +220,9 @@ function Register() {
             Submit
           </button>
         </form>
+        <p className="mt-4 text-sm text-gray-800 text-justify">
+        <span className="text-red-600">*</span> Please enter the services you offer, separated by commas (e.g., legal advising, criminal cases)
+      </p>  
       </div>
     </div>
   );

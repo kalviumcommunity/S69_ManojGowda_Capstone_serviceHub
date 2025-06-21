@@ -2,12 +2,12 @@ import { React, useState } from "react";
 import bgImg from '../assets/bg.jpeg';
 import axios from 'axios';
 import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from 'jwt-decode'
 import { useNavigate } from 'react-router-dom'
 import { FaHome } from "react-icons/fa";
 import {Link} from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Signup() {
   const navigate = useNavigate()
@@ -43,14 +43,13 @@ function Signup() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3010/api/auth/signup", {
+        `${API_URL}/auth/signup`, {
           name,
           email,
           role,
           password
         },{withCredentials: true}
        )
-       console.log(res)
        if(res.status === 201){
         toast.success(res.data.message);
         navigate("/dashboard")
@@ -59,7 +58,6 @@ function Signup() {
         }
     }catch(err){
       toast.error(err.res?.data?.message || `Something went wrong. Try again!${err}`);
-      console.log(err.message || err)
     }
   }
 
@@ -124,8 +122,7 @@ function Signup() {
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
                 try {
-                  const decoded = jwtDecode(credentialResponse.credential);
-                  const res = await axios.post("http://localhost:3010/api/auth/google", {
+                    await axios.post(`${API_URL}/auth/google`, {
                     token: credentialResponse.credential
                   }, { withCredentials: true });
                   navigate("/dashboard");
@@ -133,7 +130,6 @@ function Signup() {
                   alert("Login failed");
                 }
               }}
-              onError={() => console.log('Login Failed')}
               size="large"
               ux_mode="popup"
               theme="outline"

@@ -6,6 +6,7 @@ import { FaHome } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const API_URL = import.meta.env.VITE_API_URL;
 
 function ForgotAndResetPassword() {
   const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ function ForgotAndResetPassword() {
 
   const sendOtp = async () => {
     try {
-      const res = await axios.post("http://localhost:3010/api/auth/resetOtp", { email }, {
+      const res = await axios.post(`${API_URL}/auth/resetOtp`, { email }, {
         headers: { "Content-Type": "application/json" },
         withCredentials: true
       });
@@ -36,7 +37,7 @@ function ForgotAndResetPassword() {
   const handleReset = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3010/api/auth/reset-password", {
+      const res = await axios.post(`${API_URL}/auth/reset-password`, {
         email,
         otp,
         newPassword
@@ -48,7 +49,7 @@ function ForgotAndResetPassword() {
       if (res.status === 200) {
         setMessage("Password reset successfully!");
         toast.success("Password reset successfully!")
-        setTimeout(() => navigate("/login"), 2000);
+        setTimeout(() => navigate("/login"), 1000);
       }
     } catch (err) {
       console.error(err);

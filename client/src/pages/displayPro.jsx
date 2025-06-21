@@ -3,7 +3,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import { CiLocationOn } from "react-icons/ci";
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ProfileCard = () => {
   const params = new URLSearchParams(location.search);
@@ -12,10 +12,9 @@ const ProfileCard = () => {
   const [pro,setPro] = useState()
   useEffect(()=>{
     const fetch = async() => {
-      const proRes = await axios.get(`http://localhost:3010/api/professional/pro?id=${id}`, {
+      const proRes = await axios.get(`${API_URL}/professional/pro?id=${id}`, {
         withCredentials: true,
       });
-      console.log(proRes.data)
       setPro(proRes.data)
     }
     fetch()
@@ -23,93 +22,66 @@ const ProfileCard = () => {
   const handleClick = () => {
     navigate(`/inquiry?id=${id}`)
   }
+  const handleNav = () => {
+    navigate(`/inquiry?id=${id}`)
+  }
+
   return (
     <>
-    {pro ?
-      <div className="bg-gradient-to-b from-[#121111] to-[#787878] min-h-screen flex items-center justify-center p-4 text-white relative">
-      
-      {/* Home Icon */}
-      <div className="absolute top-4 left-4 text-white text-2xl cursor-pointer hover:text-gray-300">
-        {/* <FaHome /> */}
-      </div>
-      
-
-      <div className="flex flex-col md:flex-row gap-6 p-4 pt-10 sm:p-6 rounded-lg shadow-lg w-full max-w-5xl">
-        
-        {/* Left Section */}
-        <div className="bg-[#FFFAFA]/60 p-4 sm:p-6 rounded-lg flex flex-col items-center shadow-md w-full md:w-1/3 relative">
-          <img 
-            src={pro.profilePicture} 
-            alt="Jeremy Rose" 
-            className="w-32 h-32 sm:w-40 sm:h-40 rounded-full object-cover mb-4" 
-          />
-          <h4 className="text-xl sm:text-2xl font-bold mb-2 font-[Judson]">{pro.fullName}</h4>
-          
-          {/* Star Rating */}
-          <div className="flex text-yellow-500 mt-2 text-sm sm:text-base">
-            <i className="fas fa-star"></i>
-            <i className="fas fa-star"></i>
-            <i className="fas fa-star"></i>
-            <i className="fas fa-star"></i>
-            <i className="fas fa-star-half-alt"></i>
-          </div>
-          
-          <p className="m-2 sm:m-4 font-[Judson] text-[#0574B9] text-sm sm:text-base">
-            Year of Experience: <span className="font-semibold font-[Judson] text-white">{pro.experience} years</span>
-          </p>
-          <p className="m-2 sm:m-3 font-[Judson] text-[#0574B9] text-sm sm:text-base">
-            Availability Status: <span className="font-semibold font-[Judson] text-white">{pro.availability}</span>
-          </p>
-          <a href="#" className="text-blue-600 hover:underline mt-2 text-sm sm:text-base">LinkedIn</a>
+      {pro ? (
+        <div className="min-h-screen bg-white text-black">
+          {/* Navbar */}
+        <div className="bg-[#0074C1] h-14 w-full flex items-center justify-center shadow text-white relative">
+          <p className="text-white text-4xl font-[judson] font-semibold">{pro.fullName}</p>
         </div>
 
-        {/* Right Section */}
-        <div className="bg-[#FFFAFA]/60 p-4 sm:p-6 rounded-lg shadow-md w-full md:w-2/3">
-          <div className="flex flex-row sm:flex-row justify-between mr-0 sm:mr-3 items-center sm:items-center gap-2 sm:gap-0">
-            <h4 className="text-xl sm:text-2xl font-bold mb-2 font-[Judson]">{pro.fullName}</h4>
-            {/* <FaPencilAlt className="text-white cursor-pointer hover:text-gray-700 transition text-lg sm:text-base" /> */}
-          </div> 
 
-          <p className="flex items-center text-sm sm:text-base">
-            <CiLocationOn className="inline text-white text-lg sm:text-base"/> {pro.location}
-          </p>
-          
-          <div className="mt-3 space-y-2 text-sm sm:text-base">
-            <p className="font-[Judson]">
-              <span className="font-semibold text-[#0574B9] text-xs sm:text-sm">Email: </span> 
-              {pro.email}
-            </p>
-            <p className="font-[Judson]">
-              <span className="font-semibold text-[#0574B9] text-xs sm:text-sm">Profession: </span> 
-              {pro.profession}
-            </p>
-            {/* <p className="font-[Judson]">
-              <span className="font-semibold text-[#0574B9] text-xs sm:text-sm">Phone: </span> 
-              9090910910
-            </p> */}
-            <p className="font-[Judson]">
-              <span className="font-semibold text-[#0574B9] text-xs sm:text-sm">Services Offered: </span> 
-              {pro.servicesOffered.map((item,i)=>(
-                <span key={i}>{item},&nbsp;</span>
-              ))}
-            </p>
+          {/* Content */}
+          <div className="flex flex-col md:flex-row items-start justify-center gap-6 p-15 md:pt-30">
+            {/* Left Card */}
+            <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-6 flex flex-col items-center w-full md:w-1/3">
+              <img
+                src={pro.profilePicture}
+                alt={pro.fullName}
+                className="w-46 h-46 rounded-full object-cover mb-4"
+              />
+              <div className="flex text-yellow-500 text-lg">
+                <i className="fas fa-star"></i>
+              </div>
+              <h3 className="mt-2 text-2xl font-[judson] font-semibold">{pro.fullName}</h3>
+              <p className="text-gray-500 mt-5 text-sm">Year of experience : <span className="text-black font-medium">{pro.experience} years</span></p>
+              <p className="text-gray-500 mt-3 text-sm">Availability Status : <span className="text-black font-medium">{pro.availability}</span></p>
+              <a href="#" className="text-blue-700 mt-2 text-sm hover:underline">linkedIn<i className="fab fa-linkedin ml-1"></i></a>
+            </div>
+
+            {/* Right Card */}
+            <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-6 w-full md:w-2/3">
+            <h3 className="mt-2 text-3xl font-[judson] font-semibold">{pro.fullName}</h3>
+              <p className="flex items-center text-sm text-gray-600 mt-1">
+                <CiLocationOn className="mr-1 text-base" /> {pro.location}
+              </p>
+              <div className="flex flex-wrap gap-4 text-sm text-gray-600 mt-4">
+                <span><strong className=" text-gray-700 ">email :</strong> {pro.email}</span>
+                <span><strong className="text-gray-700">profession :</strong> {pro.profession}</span>
+                <span><strong className="text-gray-700">phone :</strong> 9038247684</span>
+              </div>
+              <div className="text-sm text-gray-600 mt-4">
+                <span><strong className=" text-gray-700">services offered :</strong></span> {pro.servicesOffered.join(", ")}
+              </div>
+              <p className="text-sm text-gray-600 mt-4 leading-relaxed">
+                <span className=" text-gray-700 text-justify text-base leading-relaxed tracking-normal break-words max-w-[100%] sm:text-left sm:tracking-normal sm:break-normal sm:max-w-none">
+                  <strong >about :</strong>  {pro.bio}</span>
+              </p>
+              <button
+                onClick={handleNav}
+                className="mt-6 px-4 py-2 bg-[#0074C1] text-white rounded  text-sm"
+              >
+                send inquiries
+              </button>
+            </div>
           </div>
-
-          <p className="mt-4 leading-relaxed font-[Judson] text-sm sm:text-lg">
-            <span className="font-semibold text-[#0574B9] text-xs sm:text-sm">About: </span> 
-            {pro.bio}
-          </p> 
-
-          {/* Centered Button */}
-          <div className="flex justify-center mt-5">
-            <button onClick={handleClick} className="bg-[#0574B9] text-white px-4 py-2 sm:px-6 sm:py-2 rounded-lg hover:bg-blue-500 transition text-sm sm:text-base">
-              send Inquiry
-            </button>
-          </div>   
         </div>
-      </div>
-    </div>
-    : <></>}
+      ) : null}
     </>
   );
 };
