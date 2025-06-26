@@ -38,43 +38,46 @@ const register =  async (req, res) => {
         });
 
         const mail = {
-            from: process.env.SMTP_USER,
-            to: email,
-            subject: "Welcome to ServiceHub",
-            html: `
-                <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #e5e7eb; background-color: #111827; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto;">
-                    <h2 style="color:rgb(255, 255, 253); text-align: center;">Welcome to serviceHub!</h2>
-        
-                    <p class="text-gray-300">Dear <strong>${name}</strong>,</p>
-        
-                    <p class="text-gray-300">
-                        We are excited to have you on board! <strong>serviceHub</strong> is designed to streamline your inquiries, making it easy to send, track, and manage requests effortlessly.
-                    </p>
-        
-                    <p class="text-gray-300"><strong>What you can do with serviceHub:</strong></p>
-                    <ul style="list-style-type: none; padding: 0;">
-                        <li style="margin: 5px 0;">✅ Submit inquiries seamlessly</li>
-                        <li style="margin: 5px 0;">✅ Track the status of your requests in real time</li>
-                    </ul>
-        
-                    <p class="text-gray-300">
-                        Get started by logging into your account and exploring the dashboard. If you have any questions, our support team is here to help!
-                    </p>
-        
-                    <div style="text-align: center; margin-top: 20px;">
-                        <a href="YOUR_LOGIN_LINK_HERE" 
-                           style="display: inline-block; background-color: #3b82f6; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">
-                            Login to ServiceHub
-                        </a>
-                    </div>
-        
-                    <p class="text-gray-300" style="margin-top: 20px;">We are glad to have you with us!</p>
-        
-                    <p class="text-gray-400">Best regards,</p>
-                    <p class="text-gray-400"><strong>The ServiceHub Team</strong></p>
-                </div>
-            `
+        from: process.env.SMTP_USER,
+        to: email,
+        subject: "Welcome to ServiceHub",
+        html: `
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #e5e7eb; background-color: #111827; padding: 20px; border-radius: 10px; max-width: 600px; margin: auto;">
+            <h2 style="color: #ffffff; text-align: center;">Welcome to ServiceHub!</h2>
+
+            <p style="color: #d1d5db;">Dear <strong>${name}</strong>,</p>
+
+            <p style="color: #d1d5db;">
+                Thank you for joining <strong>ServiceHub</strong> — your all-in-one platform for connecting with trusted professionals and managing service requests efficiently.
+            </p>
+
+            <p style="color: #d1d5db;"><strong>Here’s what you can do with ServiceHub:</strong></p>
+            <ul style="color: #d1d5db; list-style-type: none; padding: 0;">
+                <li style="margin: 5px 0;">✅ Register as a service provider or customer</li>
+                <li style="margin: 5px 0;">✅ Post, track, and manage service requests with ease</li>
+                <li style="margin: 5px 0;">✅ View and connect with verified professionals</li>
+                <li style="margin: 5px 0;">✅ Stay updated through announcements and notifications</li>
+            </ul>
+
+            <p style="color: #d1d5db;">
+                Get started by logging into your account and exploring your personalized dashboard. If you need assistance, our support team is always ready to help.
+            </p>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="https://servicehub365.netlify.app/login"
+                style="display: inline-block; background-color: #3b82f6; color: #fff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold;">
+                Login to ServiceHub
+                </a>
+            </div>
+
+            <p style="color: #d1d5db; margin-top: 20px;">We are thrilled to have you with us and look forward to supporting your journey!</p>
+
+            <p style="color: #9ca3af;">Best regards,</p>
+            <p style="color: #9ca3af;"><strong>The ServiceHub Team</strong></p>
+            </div>
+        `
         };
+
 
         await transporter.sendMail(mail);
         
