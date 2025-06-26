@@ -49,8 +49,8 @@ function Footer() {
             <div className="flex flex-col gap-2 min-w-[120px]">
               <h3 className="text-lg font-semibold mb-2">Company</h3>
               <a  className="text-sm hover:text-gray-300 cursor-pointer" onClick={() => navigate("/about")}>About Us</a>
-              <a href="#" className="text-sm hover:text-gray-300">Contact Us</a>
-              <a href="#" className="text-sm hover:text-gray-300">Terms of Use</a>
+              <a href="mailto:support@servicehub.com" className="text-sm hover:text-gray-300">Contact Us</a>
+              <a href="#" className="text-sm hover:text-gray-300" onClick={() => navigate("/termsOfUse")}>Terms of Use</a>
             </div>
 
             {/* Social Media */}
@@ -58,14 +58,14 @@ function Footer() {
               <h3 className="text-lg font-semibold mb-2">Social Media</h3>
               <a href="#" className="text-sm hover:text-gray-300">Facebook</a>
               <a href="#" className="text-sm hover:text-gray-300">Instagram</a>
-              <a href="#" className="text-sm hover:text-gray-300">LinkedIn</a>
+              <a href="#" className="text-sm hover:text-gray-300" >LinkedIn</a>
             </div>
 
             {/* Utility Pages */}
             <div className="flex flex-col gap-2 min-w-[120px]">
               <h3 className="text-lg font-semibold mb-2">Utility Pages</h3>
-              <a href="#" className="text-sm hover:text-gray-300">Privacy Policy</a>
-              <a href="#" className="text-sm hover:text-gray-300">FAQ</a>
+              <a href="#" className="text-sm hover:text-gray-300" onClick={() => navigate("/privacy")}>Privacy Policy</a>
+              <a href="#" className="text-sm hover:text-gray-300" onClick={() => navigate("/faq")}>FAQ</a>
             </div>
           </div>
         </div>

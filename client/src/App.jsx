@@ -20,6 +20,8 @@ import FAQPage from './pages/FAQpage';
 import AboutPage from './pages/about';
 import { ToastContainer } from 'react-toastify';
 import Contact from "./pages/contact"
+import PrivacyPolicy from './pages/privacyPolicy';
+import TermsOfUse from './pages/TermsOfUse';
 
 
 function App() {
@@ -43,6 +45,8 @@ function App() {
           <Route path='/FAQ' element={<FAQPage/>}/>
           <Route path='/about' element={<AboutPage/>}/>
           <Route path='/contact' element={<Contact/>}/>
+          <Route path='/privacy' element={<PrivacyPolicy/>}/>
+          <Route path='/termsOfUse' element={<TermsOfUse/>}/>
           <Route path="*" element={<NotFound />} />
           
 
