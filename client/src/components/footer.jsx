@@ -49,7 +49,7 @@ function Footer() {
             <div className="flex flex-col gap-2 min-w-[120px]">
               <h3 className="text-lg font-semibold mb-2">Company</h3>
               <a  className="text-sm hover:text-gray-300 cursor-pointer" onClick={() => navigate("/about")}>About Us</a>
-              <a href="mailto:support@servicehub.com" className="text-sm hover:text-gray-300">Contact Us</a>
+              <a href="contact.servicehub365@gmail.com" className="text-sm hover:text-gray-300">Contact Us</a>
               <a href="#" className="text-sm hover:text-gray-300" onClick={() => navigate("/termsOfUse")}>Terms of Use</a>
             </div>
 
