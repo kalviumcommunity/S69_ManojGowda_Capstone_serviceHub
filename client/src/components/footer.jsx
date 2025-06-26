@@ -80,7 +80,7 @@ function Footer() {
               draggable="false"
             />
             <h4 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-[JetBrains-Mono]">
-              serviceHub
+              service<span className="text-[#0574B9]">Hub</span>
             </h4>
           </div>
         </div>
