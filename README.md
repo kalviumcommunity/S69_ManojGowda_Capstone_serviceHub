@@ -1,4 +1,4 @@
-# 🛠️ ServiceHub
+#  serviceHub
 
 **ServiceHub** is a full-stack web application that bridges the gap between skilled service professionals and clients. It offers a seamless experience for users to discover, and connect with verified professionals across various service categories — such as Legal, Accounting, Marketing, Skilled Trades, and more.
 
