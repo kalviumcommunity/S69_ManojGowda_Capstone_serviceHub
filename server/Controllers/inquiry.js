@@ -23,20 +23,22 @@ const showInquiry = async (req, res) => {
       });
 
     // Restructure the response
-    const formatted = queries.map(q => ({
-      _id: q._id,
-      inquiry: {
-        message: q.message,
-        serviceRequested: q.serviceRequested,
-        status: q.status,
-        createdAt: q.createdAt
-      },
-      client: q.clientId,
-      professional: {
-        ...q.professionalId.toObject(),
-        user: q.professionalId.userId
-      }
-    }));
+   const formatted = queries.map(q => ({
+    _id: q._id,
+    inquiry: {
+      message: q.message,
+      serviceRequested: q.serviceRequested,
+      status: q.status,
+      createdAt: q.createdAt
+    },
+    client: q.clientId,
+    professional: q.professionalId
+      ? {
+          ...q.professionalId.toObject(),
+          user: q.professionalId.userId
+        }
+      : null
+}));
 
     res.status(200).json(formatted);
   } catch (err) {
