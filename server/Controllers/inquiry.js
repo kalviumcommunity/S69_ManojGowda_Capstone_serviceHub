@@ -43,11 +43,7 @@ const showInquiry = async (req, res) => {
     res.status(200).json(formatted);
   } catch (err) {
     console.error(err);
-<<<<<<< HEAD
     res.status(500).json({ message: "Internal Server Error",error : err.message });
-=======
-    res.status(500).json({ message: "Internal Server Error", error : err.message });
->>>>>>> f9113f29b601f33ea7ed0a55c5237d1c9655a51c
   }
 };
 
