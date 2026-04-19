@@ -32,7 +32,7 @@ const App = () => {
       } catch (error) {
         console.error("Error fetching user:", error);
         if(error.status === 401){
-          navigate("/login")
+          navigate("/login")rdtret
         }
       }
     };
